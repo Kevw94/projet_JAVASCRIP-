@@ -60,7 +60,7 @@ function goInGame(){ // func delete rules
     // ----------------
 
 
-    afficher(); // function for game 
+    afficherFunction(); // function for game 
 
 
     document.body.appendChild(buttonPause); // button Pause

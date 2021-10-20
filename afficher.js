@@ -21,7 +21,9 @@ resultat = Math.floor(Math.random()*max);
 // let allQuizz = allQuestions[resultat]["quizz"];
 
 
-let allQuizz = allQuestions[resultat]["quizz"];
+let allQuizz = allQuestions[resultat]["quizz"]; //questions
+
+
 let answerOne = allQuestions[resultat]["rep1"];
 let answerTwo = allQuestions[resultat]["rep2"];
 let answerThree = allQuestions[resultat]["rep3"];
@@ -103,6 +105,8 @@ let pQuatre = document.createElement("p");
 
 
 
+
+// ------------ add EventListener ----------------------
 pUn.addEventListener("click" , nextQuestion);
 pDeux.addEventListener("click", nextQuestion);
 pTrois.addEventListener("click", nextQuestion);
@@ -122,6 +126,8 @@ pUn.addEventListener("mouseout" , changeBack );
 pDeux.addEventListener("mouseout", changeBack );
 pTrois.addEventListener("mouseout", changeBack );
 pQuatre.addEventListener("mouseout" , changeBack );
+
+// ---------------------------------------------------------
 
 
 function buttonOne(){
@@ -171,7 +177,7 @@ function nextQuestion(){
     // divAnswer.remove(divBreak);
     // divAnswer.appendChild(divBreak);
     // attribuer();
-    afficher();
+    afficherFunction();
 
     
     
@@ -191,18 +197,21 @@ function changeBack(){
 
 
 
-function afficher(){
+function afficherFunction(){
     attribuer();
 
     divQuestions.innerHTML = allQuizz;
-    
-    
-
-
     divAnswer.appendChild(divBreak);
 
+    afficherSiAnswer();
+
     
 
+    
+}
+
+
+function afficherSiAnswer(){
     if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour != undefined ){
 
         pUn.innerHTML = answerOne; 
@@ -230,6 +239,7 @@ function afficher(){
         divBreak.appendChild(pDeux);
     }
    
+
 
 }
 
