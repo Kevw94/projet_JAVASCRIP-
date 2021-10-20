@@ -10,13 +10,19 @@ let buttonIncollable = document.querySelector("#button2"); //get incollab
 let supprRules = document.querySelector("#regles"); //get the all rules 
 let supprTime = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
+let getB = document.querySelector("b");
+let reglesClone = supprRules.cloneNode(true);
 
+let newGame = document.createElement("div")
+newGame.setAttribute("id" , "regles");
 
 
 //console.log(buttonIncollable);
 
 
 let timerElement = document.querySelector("#div1"); // for the clock
+
+
 
 
 
@@ -82,7 +88,20 @@ function countDown(){ // timer for the game
     timerElement.innerHTML = minutes + " : " + secondes; //à expliquer 
     // time --; 
     if (time <= 0){
-        time == 0
+        time == 0;
+        
+        //allQuizz.remove();
+        divQuestions.remove();
+        timerElement.remove();
+        pUn.remove();
+        pDeux.remove();
+        pTrois.remove();
+        pQuatre.remove();
+        incrementationBonneRep.remove();
+        incrementationMauvaiseRep.remove();
+        getB.appendChild(reglesClone);
+        
+        
     }
     else{
         time = time- 0.1;

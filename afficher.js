@@ -14,30 +14,30 @@
 
 
 let max = allQuestions.length;
-
-resultat = Math.floor(Math.random()*max);
+let resultat;
+// resultat = Math.floor(Math.random()*max);
 
 
 // let allQuizz = allQuestions[resultat]["quizz"];
 
 
-let allQuizz = allQuestions[resultat]["quizz"]; //questions
+// let allQuizz = allQuestions[resultat]["quizz"]; //questions
 
 
-let answerOne = allQuestions[resultat]["rep1"];
-let answerTwo = allQuestions[resultat]["rep2"];
-let answerThree = allQuestions[resultat]["rep3"];
-let answerFour = allQuestions[resultat]["rep4"];
-let goodRep = allQuestions[resultat]["goodrep"];
+// let answerOne = allQuestions[resultat]["rep1"];
+// let answerTwo = allQuestions[resultat]["rep2"];
+// let answerThree = allQuestions[resultat]["rep3"];
+// let answerFour = allQuestions[resultat]["rep4"];
+// let goodRep = allQuestions[resultat]["goodrep"];
 
 // console.log(goodRep);
 
 
-// let allQuizz; 
-// let answerOne; 
-// let answerTwo ;
-// let answerThree; 
-// let answerFour;
+let allQuizz; 
+let answerOne; 
+let answerTwo ;
+let answerThree; 
+let answerFour;
 
 let incrementationBonneRep = document.createElement("div");
 document.body.appendChild(incrementationBonneRep);
@@ -49,37 +49,40 @@ document.body.appendChild(incrementationMauvaiseRep);
 
 
 
-function attribuer(){
+// function attribuer(){
+   
 
-    max = allQuestions.length;
-    let resultat = Math.floor(Math.random()*max);
+//     // max = allQuestions.length;
+//     let resultat = Math.floor(Math.random()*max);
 
 
-    allQuizz = allQuestions[resultat]["quizz"];
-    answerOne = allQuestions[resultat]["rep1"];
-    answerTwo = allQuestions[resultat]["rep2"];
-    answerThree = allQuestions[resultat]["rep3"];
-    answerFour = allQuestions[resultat]["rep4"];
-    goodRep = allQuestions[resultat]["goodrep"];
-    console.log(goodRep);
-    console.log(answerOne);
+//     allQuizz = allQuestions[resultat]["quizz"];
+//     answerOne = allQuestions[resultat]["rep1"];
+//     answerTwo = allQuestions[resultat]["rep2"];
+//     answerThree = allQuestions[resultat]["rep3"];
+//     answerFour = allQuestions[resultat]["rep4"];
+//     goodRep = allQuestions[resultat]["goodrep"];
+
+//     console.log(goodRep);
+//     console.log(answerOne);
 
     
     
-    console.log(answerTwo);
-    console.log(answerThree);
+//     console.log(answerTwo);
+//     console.log(answerThree);
     
-    console.log(answerFour);
-    afficherSiAnswer();
+//     console.log(answerFour);
+//     afficherSiAnswer();
     
     
-    // afficher();
+    
+//     // afficher();
 
 
 
 
 
-}
+// }
 
 
 
@@ -102,6 +105,10 @@ function attribuer(){
 
 // }
 // afficher();
+
+
+
+
 let divQuestions = document.querySelector("#div2"); // questions
 //divQuestions.setAttribute("style", "bold");
 
@@ -146,24 +153,24 @@ let i = 1;
 let j = 1;
 function buttonOne(){
     if (goodRep == 1){
-        console.log("+1");
+        //console.log("+1");
         incrementationBonneRep.innerHTML = "bonne réponse " + i++;
         
     }
     else{
-        console.log("button1");
+        //console.log("button1");
         incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
 
 function buttonTwo(){
     if (goodRep == 2 ){
-        console.log("+2");
+        //console.log("+2");
         incrementationBonneRep.innerHTML = "bonne réponse " + i++;
 
     }
     else{
-        console.log("button2");
+        //console.log("button2");
         incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
@@ -171,11 +178,11 @@ function buttonTwo(){
 
 function buttonThree(){
     if (goodRep == 3){
-        console.log("+3");
+        //console.log("+3");
         incrementationBonneRep.innerHTML = "bonne réponse " + i++;
     }
     else{
-        console.log("button3");
+        //console.log("button3");
         incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
@@ -184,11 +191,11 @@ function buttonThree(){
 function buttonFour(){
     if (goodRep == 4){
 
-        console.log("+4");
+        //console.log("+4");
         incrementationBonneRep.innerHTML = "bonne réponse " + i++;
     }
     else{
-        console.log("button4");
+        //console.log("button4");
         incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
 
     }
@@ -225,20 +232,72 @@ function changeBack(){
 
 function afficherFunction(){
     // afficherSiAnswer();
+    attribuer();
     
 
     divQuestions.innerHTML = allQuizz;
+    divQuestions.style.fontSize =  "1.5em";
+    
+
     divAnswer.appendChild(divBreak);
 
     
     
 
-    attribuer();
+    
 
     
 
     
 }
+
+
+function randomValue(){
+    resultat = Math.floor(Math.random()*max);
+    return; 
+}
+
+function attribuer(){
+    randomValue();
+   
+
+    // max = allQuestions.length;
+    // let resultat = Math.floor(Math.random()*max);
+
+
+    allQuizz = allQuestions[resultat]["quizz"];
+    answerOne = allQuestions[resultat]["rep1"];
+    answerTwo = allQuestions[resultat]["rep2"];
+    answerThree = allQuestions[resultat]["rep3"];
+    answerFour = allQuestions[resultat]["rep4"];
+    goodRep = allQuestions[resultat]["goodrep"];
+
+    console.log(goodRep);
+    console.log(answerOne);
+
+    
+    
+    console.log(answerTwo);
+    console.log(answerThree);
+    
+    console.log(answerFour);
+    afficherSiAnswer();
+    
+    
+    
+    // afficher();
+
+
+
+
+
+}
+
+
+
+
+
+
 
 
 function afficherSiAnswer(){
