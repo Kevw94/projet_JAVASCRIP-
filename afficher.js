@@ -12,16 +12,51 @@
 
 //console.log(question);
 
+
 let max = allQuestions.length;
-
-
 resultat = Math.floor(Math.random()*max);
 
+
 let allQuizz = allQuestions[resultat]["quizz"];
+
+
 let answerOne = allQuestions[resultat]["rep1"];
 let answerTwo = allQuestions[resultat]["rep2"];
 let answerThree = allQuestions[resultat]["rep3"];
 let answerFour = allQuestions[resultat]["rep4"];
+
+// let allQuizz; 
+// let answerOne; 
+// let answerTwo ;
+// let answerThree; 
+// let answerFour;
+
+
+
+
+
+
+function attribuer(){
+
+    max = allQuestions.length;
+    let resultat = Math.floor(Math.random()*max);
+
+
+    allQuizz = allQuestions[resultat]["quizz"];
+    answerOne = allQuestions[resultat]["rep1"];
+    answerTwo = allQuestions[resultat]["rep2"];
+    answerThree = allQuestions[resultat]["rep3"];
+    answerFour = allQuestions[resultat]["rep4"];
+
+
+
+
+}
+
+
+
+
+
 
 
 // // let i = 1; 
@@ -40,6 +75,8 @@ let answerFour = allQuestions[resultat]["rep4"];
 // }
 // afficher();
 let divQuestions = document.querySelector("#div2");
+//divQuestions.setAttribute("style", "bold");
+
 
 let divAnswer = document.querySelector("#div3");
 
@@ -52,10 +89,53 @@ let pQuatre = document.createElement("p");
 
 
 
+pUn.addEventListener("click" , nextQuestion );
+pDeux.addEventListener("click", nextQuestion);
+pTrois.addEventListener("click", nextQuestion);
+pQuatre.addEventListener("click" , nextQuestion);
+
+pUn.addEventListener("mouseover" , changeClr );
+pDeux.addEventListener("mouseover", changeClr );
+pTrois.addEventListener("mouseover", changeClr );
+pQuatre.addEventListener("mouseover" , changeClr );
+
+pUn.addEventListener("mouseout" , changeBack );
+pDeux.addEventListener("mouseout", changeBack );
+pTrois.addEventListener("mouseout", changeBack );
+pQuatre.addEventListener("mouseout" , changeBack );
+
+
+
+
+
+function nextQuestion(){
+    
+    
+    // divAnswer.remove(divBreak);
+    // divAnswer.appendChild(divBreak);
+    attribuer()
+    afficher()
+
+    
+    
+}
+
+function changeClr(){
+    this.style.color = "red"; 
+}
+function changeBack(){
+    this.style.color = "black"; 
+}
+
+
 
 
 function afficher(){
+
     divQuestions.innerHTML = allQuizz;
+    
+
+
     divAnswer.appendChild(divBreak);
 
     
@@ -87,6 +167,8 @@ function afficher(){
         divBreak.appendChild(pDeux);
     }
 }
+
+
     
 
 
