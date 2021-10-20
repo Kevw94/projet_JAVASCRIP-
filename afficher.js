@@ -14,16 +14,22 @@
 
 
 let max = allQuestions.length;
+
 resultat = Math.floor(Math.random()*max);
 
 
+// let allQuizz = allQuestions[resultat]["quizz"];
+
+
 let allQuizz = allQuestions[resultat]["quizz"];
-
-
 let answerOne = allQuestions[resultat]["rep1"];
 let answerTwo = allQuestions[resultat]["rep2"];
 let answerThree = allQuestions[resultat]["rep3"];
 let answerFour = allQuestions[resultat]["rep4"];
+let goodRep = allQuestions[resultat]["goodrep"];
+
+// console.log(goodRep);
+
 
 // let allQuizz; 
 // let answerOne; 
@@ -47,6 +53,14 @@ function attribuer(){
     answerTwo = allQuestions[resultat]["rep2"];
     answerThree = allQuestions[resultat]["rep3"];
     answerFour = allQuestions[resultat]["rep4"];
+    goodRep = allQuestions[resultat]["goodrep"];
+    console.log(goodRep);
+    console.log(answerFour);
+    console.log(answerThree);
+    console.log(answerTwo);
+    console.log(answerOne);
+    // afficher();
+
 
 
 
@@ -74,7 +88,7 @@ function attribuer(){
 
 // }
 // afficher();
-let divQuestions = document.querySelector("#div2");
+let divQuestions = document.querySelector("#div2"); // questions
 //divQuestions.setAttribute("style", "bold");
 
 
@@ -89,10 +103,15 @@ let pQuatre = document.createElement("p");
 
 
 
-pUn.addEventListener("click" , nextQuestion );
+pUn.addEventListener("click" , nextQuestion);
 pDeux.addEventListener("click", nextQuestion);
 pTrois.addEventListener("click", nextQuestion);
 pQuatre.addEventListener("click" , nextQuestion);
+
+pUn.addEventListener("click" , buttonOne);
+pDeux.addEventListener("click", buttonTwo);
+pTrois.addEventListener("click", buttonThree);
+pQuatre.addEventListener("click" , buttonFour);
 
 pUn.addEventListener("mouseover" , changeClr );
 pDeux.addEventListener("mouseover", changeClr );
@@ -105,20 +124,62 @@ pTrois.addEventListener("mouseout", changeBack );
 pQuatre.addEventListener("mouseout" , changeBack );
 
 
+function buttonOne(){
+    if (goodRep == 1){
+        console.log("+1")
+    }
+    else{
+        console.log("button1");
+    }
+}
+
+function buttonTwo(){
+    if (goodRep == 2 ){
+        console.log("+2");
+    }
+    else{
+        console.log("button2");
+    }
+}
+
+
+function buttonThree(){
+    if (goodRep == 3){
+        console.log("+3");
+    }
+    else{
+        console.log("button3");
+    }
+}
+
+
+function buttonFour(){
+    if (goodRep == 4){
+        console.log("+4");
+    }
+    else{
+        console.log("button4");
+    }
+}
+
 
 
 
 function nextQuestion(){
     
-    
+    // resultats();
     // divAnswer.remove(divBreak);
     // divAnswer.appendChild(divBreak);
-    attribuer()
-    afficher()
+    // attribuer();
+    afficher();
 
     
     
 }
+// function resultats(){
+    
+// }
+
 
 function changeClr(){
     this.style.color = "red"; 
@@ -131,8 +192,10 @@ function changeBack(){
 
 
 function afficher(){
+    attribuer();
 
     divQuestions.innerHTML = allQuizz;
+    
     
 
 
@@ -166,6 +229,8 @@ function afficher(){
         pDeux.innerHTML = answerTwo;
         divBreak.appendChild(pDeux);
     }
+   
+
 }
 
 

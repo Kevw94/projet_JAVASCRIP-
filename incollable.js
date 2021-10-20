@@ -1,29 +1,44 @@
-let buttonIncollable = document.querySelector("#button2");
+document.body.style.background =  "#545349" ; 
 
-let suppr = document.querySelector("#regles");
-let supprTime = document.querySelector("#tmp");
+
+// --------------------------- get type of game -------------------
+let buttonIncollable = document.querySelector("#button2"); //get incollab
+// ------------------------------------------------------------------
+
+
+// --------------------  suppr for go in game -------------------
+let supprRules = document.querySelector("#regles"); //get the all rules 
+let supprTime = document.querySelector("#tmp"); //get the div "time"
+//-----------------------------------------------------------------
+
+
+
 //console.log(buttonIncollable);
-let timerElement = document.querySelector("#div1");
+
+
+let timerElement = document.querySelector("#div1"); // for the clock
+
+
+
 // let monProjet = document.querySelector('b');
 // let space = document.createElement('br');
 
 // timerElement.appendChild(space); 
+
+
+
+
+// ------------------------------ Button PAUSE ----------------------
 let buttonPause = document.createElement("button");
 buttonPause.setAttribute("class" , "pause");
-
 buttonPause.innerHTML = "PAUSE" ; 
-
-
-
-
-
-
+// -------------------------------------------------------------------
 
 
 let time = 120;
 
 
-
+// ----------- go in incollable game on click ----------------
 buttonIncollable.addEventListener("click" , goInGame);
 
 
@@ -34,19 +49,30 @@ buttonIncollable.addEventListener("click" , goInGame);
 
 
 
-
 function goInGame(){ // func delete rules
+
+
     console.log("bonjour");
-    suppr.remove();
+
+    // ---- remove ------
+    supprRules.remove();
     supprTime.remove();
-    
-    afficher();
-    document.body.appendChild(buttonPause);
+    // ----------------
+
+
+    afficher(); // function for game 
+
+
+    document.body.appendChild(buttonPause); // button Pause
+
     countDown(); // call the function countDown
-    setInterval(countDown , 1000);
+    setInterval(countDown , 120);
     // timerElement.appendChild(space); 
     
 }
+
+
+
 
 function countDown(){ // timer for the game 
     let minutes = parseInt(time / 60, 10);
@@ -55,7 +81,13 @@ function countDown(){ // timer for the game
     secondes = secondes < 10 ? "0" + secondes : secondes; // à expliquer 
     timerElement.innerHTML = minutes + " : " + secondes; //à expliquer 
     // time --; 
-    time = time <= 0 ? 0 : time - 1;
+    if (time <= 0){
+        time == 0
+    }
+    else{
+        time = time- 0.1;
+    }
+    // time = time <= 0 ? 0 : time - 1;
    
 }
 
