@@ -39,6 +39,11 @@ let goodRep = allQuestions[resultat]["goodrep"];
 // let answerThree; 
 // let answerFour;
 
+let incrementationBonneRep = document.createElement("div");
+document.body.appendChild(incrementationBonneRep);
+
+let incrementationMauvaiseRep = document.createElement("div");
+document.body.appendChild(incrementationMauvaiseRep);
 
 
 
@@ -58,6 +63,7 @@ function attribuer(){
     goodRep = allQuestions[resultat]["goodrep"];
     console.log(goodRep);
     console.log(answerOne);
+
     
     
     console.log(answerTwo);
@@ -65,6 +71,8 @@ function attribuer(){
     
     console.log(answerFour);
     afficherSiAnswer();
+    
+    
     // afficher();
 
 
@@ -134,21 +142,29 @@ pQuatre.addEventListener("mouseout" , changeBack );
 // -----------------------------------------------------
 
 
+let i = 1;
+let j = 1;
 function buttonOne(){
     if (goodRep == 1){
-        console.log("+1")
+        console.log("+1");
+        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+        
     }
     else{
         console.log("button1");
+        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
 
 function buttonTwo(){
     if (goodRep == 2 ){
         console.log("+2");
+        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+
     }
     else{
         console.log("button2");
+        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
 
@@ -156,19 +172,25 @@ function buttonTwo(){
 function buttonThree(){
     if (goodRep == 3){
         console.log("+3");
+        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
     }
     else{
         console.log("button3");
+        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
     }
 }
 
 
 function buttonFour(){
     if (goodRep == 4){
+
         console.log("+4");
+        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
     }
     else{
         console.log("button4");
+        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+
     }
 }
 
