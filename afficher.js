@@ -57,10 +57,14 @@ function attribuer(){
     answerFour = allQuestions[resultat]["rep4"];
     goodRep = allQuestions[resultat]["goodrep"];
     console.log(goodRep);
-    console.log(answerFour);
-    console.log(answerThree);
-    console.log(answerTwo);
     console.log(answerOne);
+    
+    
+    console.log(answerTwo);
+    console.log(answerThree);
+    
+    console.log(answerFour);
+    afficherSiAnswer();
     // afficher();
 
 
@@ -127,7 +131,7 @@ pDeux.addEventListener("mouseout", changeBack );
 pTrois.addEventListener("mouseout", changeBack );
 pQuatre.addEventListener("mouseout" , changeBack );
 
-// ---------------------------------------------------------
+// -----------------------------------------------------
 
 
 function buttonOne(){
@@ -198,12 +202,16 @@ function changeBack(){
 
 
 function afficherFunction(){
-    attribuer();
+    // afficherSiAnswer();
+    
 
     divQuestions.innerHTML = allQuizz;
     divAnswer.appendChild(divBreak);
 
-    afficherSiAnswer();
+    
+    
+
+    attribuer();
 
     
 
@@ -231,12 +239,15 @@ function afficherSiAnswer(){
         divBreak.appendChild(pDeux);
         pTrois.innerHTML = answerThree;
         divBreak.appendChild(pTrois);
+        pQuatre.remove();
     }
     else {
         pUn.innerHTML = answerOne; 
         divBreak.appendChild(pUn);
         pDeux.innerHTML = answerTwo;
         divBreak.appendChild(pDeux);
+        pTrois.remove();
+        pQuatre.remove();
     }
    
 
