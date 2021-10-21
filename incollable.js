@@ -41,7 +41,7 @@ buttonPause.innerHTML = "PAUSE" ;
 // -------------------------------------------------------------------
 
 
-let time = 120;
+let time = 20;
 
 
 // ----------- go in incollable game on click ----------------
