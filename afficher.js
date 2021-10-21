@@ -13,8 +13,182 @@
 //console.log(question);
 
 
-let max = allQuestions.length;
-let resultat;
+let incrementationMauvaiseRep = document.createElement("div");
+document.body.appendChild(incrementationMauvaiseRep);
+
+
+
+let divQuestions = document.querySelector("#div2"); // questions
+//divQuestions.setAttribute("style", "bold");
+
+
+let divAnswer = document.querySelector("#div3");
+
+let divBreak = document.createElement("div");
+
+let pUn = document.createElement("p");
+let pDeux = document.createElement("p");
+let pTrois = document.createElement("p");
+let pQuatre = document.createElement("p");
+
+
+
+// ------------ add EventListener ----------------------
+pUn.addEventListener("click" , nextQuestion);//clickForTwoFun);
+pDeux.addEventListener("click", nextQuestion);//clickForTwoFun);
+pTrois.addEventListener("click", nextQuestion);//clickForTwoFun);
+pQuatre.addEventListener("click" , nextQuestion);//clickForTwoFun);
+
+// pUn.addEventListener("click" , findClick);
+// pDeux.addEventListener("click", findClick);
+// pTrois.addEventListener("click", findClick);
+// pQuatre.addEventListener("click" , findClick);
+
+pUn.addEventListener("mouseover" , changeClr );
+pDeux.addEventListener("mouseover", changeClr );
+pTrois.addEventListener("mouseover", changeClr );
+pQuatre.addEventListener("mouseover" , changeClr );
+
+pUn.addEventListener("mouseout" , changeBack );
+pDeux.addEventListener("mouseout", changeBack );
+pTrois.addEventListener("mouseout", changeBack );
+pQuatre.addEventListener("mouseout" , changeBack );
+
+// -----------------------------------------------------
+
+// -------------- random value ---------------------------
+function randomValue(){
+    resultat = Math.floor(Math.random()*max);
+    return; 
+}
+//---------------------------------------------------------
+
+
+function incrGood(){
+    incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+}
+function incrBad(){
+    incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+}
+
+
+// ----------------------- next question -----------------------
+function nextQuestion(){
+    
+    // resultats();
+    // divAnswer.remove(divBreak);
+    // divAnswer.appendChild(divBreak);
+    // attribuer();
+    afficherFunction();   
+}
+
+// ------------------------- afficher function -----------------
+function afficherFunction(){
+    // afficherSiAnswer();
+    randomValue();
+    attribuer();
+    
+    //console.log(goodRep + " nfjnsdjnfjdsn")
+
+    divQuestions.innerHTML = allQuizz;
+    divQuestions.style.fontSize =  "1.5em";
+    
+
+    divAnswer.appendChild(divBreak);
+    afficherSiAnswer();  
+}
+// -----------------------------------------------------------------
+
+
+// --------------------- AFFICHER SI ANSWER ------------------------------
+function afficherSiAnswer(){
+    if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour != undefined ){
+
+        pUn.innerHTML = answerOne; 
+        divBreak.appendChild(pUn);
+        pDeux.innerHTML = answerTwo;
+        divBreak.appendChild(pDeux);
+        pTrois.innerHTML = answerThree;
+        divBreak.appendChild(pTrois);
+        pQuatre.innerHTML = answerFour;
+        divBreak.appendChild(pQuatre);
+        
+    }
+    else if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour == undefined ){
+        pUn.innerHTML = answerOne; 
+        divBreak.appendChild(pUn);
+        pDeux.innerHTML = answerTwo;
+        divBreak.appendChild(pDeux);
+        pTrois.innerHTML = answerThree;
+        divBreak.appendChild(pTrois);
+        pQuatre.remove();
+    }
+    else {
+        pUn.innerHTML = answerOne; 
+        divBreak.appendChild(pUn);
+        pDeux.innerHTML = answerTwo;
+        divBreak.appendChild(pDeux);
+        pTrois.remove();
+        pQuatre.remove();
+    }
+   
+
+
+}
+
+//---------------------------------------------------------------------------
+
+// ---------------- attribuer la valeur pour questioons ----------
+function attribuer(){
+    //randomValue();
+    
+    // max = allQuestions.length;
+    // let resultat = Math.floor(Math.random()*max);
+
+
+    allQuizz = allQuestions[resultat]["quizz"];
+    answerOne = allQuestions[resultat]["rep1"];
+    answerTwo = allQuestions[resultat]["rep2"];
+    answerThree = allQuestions[resultat]["rep3"];
+    answerFour = allQuestions[resultat]["rep4"];
+    goodRep = allQuestions[resultat]["goodrep"];
+
+    
+    console.log(answerOne);
+
+    
+    
+    console.log(answerTwo);
+    console.log(answerThree);
+    
+    console.log(answerFour);
+    console.log(goodRep);
+    
+    
+    
+    
+    // afficher();
+
+
+
+
+
+}
+//  ------------------------------------------------------------
+
+//------------------- CHANGE COLOR ---------------------
+function changeClr(){
+    this.style.color = "red"; 
+}
+function changeBack(){
+    this.style.color = "black"; 
+}
+//-----------------------------------------------------
+
+
+
+// --------------------------------- test ---------------------------------------------------
+
 // resultat = Math.floor(Math.random()*max);
 
 
