@@ -1,7 +1,10 @@
 document.body.style.background =  "#545349" ; 
 
 // -------------------------- VARIABLES GLOBALES -------------------
+
+
 // --------------------------- get type of game -------------------
+
 let buttonIncollable = document.querySelector("#button2"); //get incollab
 // ------------------------------------------------------------------
 
@@ -14,35 +17,42 @@ let timerElement = document.querySelector("#div1"); // for the clock
 
 
 
+// ----------------------- button ABANDONNER -------------------
+let buttonGiveUp = document.createElement("button");
+buttonGiveUp.setAttribute("class" , "giveUp");
+buttonGiveUp.innerHTML = "ABANDONNER";
+//-----------------------------------------------------------------
 // ------------------------------ Button PAUSE ----------------------
 let buttonPause = document.createElement("button");
 buttonPause.setAttribute("class" , "pause");
 buttonPause.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
+// ---------- lenght of all questions in JSON --------
+let max = allQuestions.length;
 
-// ----------------------- button Abandonner -------------------
-let buttonGiveUp = document.createElement("button");
-buttonGiveUp.setAttribute("class" , "giveUp");
-buttonGiveUp.innerHTML = "ABANDONNER";
-//-----------------------------------------------
 
 let time = 20;
 
 // -------------------------------------------------------
 
 //---------------------VARIABLES JSON -------------------------
-let max = allQuestions.length;
 
+// --------- variable for random result ---------
 let resultat;
 
+// ------------- variables assigned thanks to resultatChrono get in a randomFunction ---------
 let allQuizz; 
 let answerOne; 
 let answerTwo ;
 let answerThree; 
 let answerFour;
 
+
+// --------------- variables for count ++ or -- --------------------
 let i = 1;
 let j = 1;
+
+
 //-----------------------------------------------------------
 //-----------print questions --------------------------------
 

@@ -5,7 +5,7 @@ let buttonChrono = document.querySelector("#button1"); //get Chrono
 
 // --------------------  suppr for go in game -------------------
 let supprRulesChrono = document.querySelector("#regles"); //get the all rules 
-let  supprTimeChrono = document.querySelector("#tmp"); //get the div "timeChrono"
+let  supprTimeChrono = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
 
 
@@ -23,22 +23,32 @@ let buttonPauseChrono = document.createElement("button");
 buttonPauseChrono.setAttribute("class" , "pauseChrono");
 buttonPauseChrono.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
-let maxChrono = allQuestions.length;//allQuestionsChrono.length;
+// ---------- lenght of all questions in JSON --------
+let maxChrono = allQuestions.length;
 
 let timeChrono = 180;
 
+// ------------ VARIABLES JSON -------------------
+// --------- variable for random result ---------
 let resultatChrono;
 
+// ------------- variables assigned thanks to resultatChrono get in a randomFunction ---------
 let allQuizzChrono; 
 let answerOneChrono; 
 let answerTwoChrono ;
 let answerThreeChrono; 
 let answerFourChrono;
+
+// --------------- variables for count ++ or -- --------------------
 let iChrono = 1;
 let jChrono = 1;
 
-// ----------- go in incollable game on click ----------------
+// ----------- go in CHRONO game on click ----------------
 buttonChrono.addEventListener("click" , goInGameChrono);
+
+
+
+// ------ if user wants to give up or take a break -------------------
 
 buttonGiveUpChrono.addEventListener("click", giveUpChrono);
 
@@ -51,23 +61,23 @@ buttonPauseChrono.addEventListener("click", pauseChrono);
 
 
 function goInGameChrono(){ // func delete rules
-    console.log("bonjour");
+    // console.log("bonjour"); // test if worth 
 
-    // ---- remove ------
+    // ---- remove rules  ------
     supprRulesChrono.remove();
     supprTimeChrono.remove();
     // ----------------
 
+    afficherFunctionChrono(); // function of game 
 
-    afficherFunctionChrono(); // function for game 
-
+    //----- create button break and giveup ----
     document.body.appendChild(buttonGiveUpChrono); // button Give Up
     document.body.appendChild(buttonPauseChrono); // button Pause
 
+
+
     countDownChrono(); // call the function countDownChrono
-    setInterval(countDownChrono , 120);
-    // timerElementChrono.appendChild(space); 
-    
+    setInterval(countDownChrono , 120);    
 }
 
 function giveUpChrono(){
@@ -75,17 +85,17 @@ function giveUpChrono(){
     countDownChrono();
 }
 function pauseChrono(){
-    window.alert("Vous avez mis le jeu en pauseChrono");
+    window.alert("Vous avez mis le jeu en pause ");
     afficherFunctionChrono();
 }
 
 
-function countDownChrono(){ // timer for the game 
+function countDownChrono(){ // function timer for the game 
     let minutes = parseInt(timeChrono / 60, 10);
     let secondes = parseInt(timeChrono % 60 , 10);
-    minutes = minutes < 10 ? "0" + minutes : minutes; // à expliquer
-    secondes = secondes < 10 ? "0" + secondes : secondes; // à expliquer 
-    timerElementChrono.innerHTML = minutes + " : " + secondes; //à expliquer 
+    minutes = minutes < 10 ? "0" + minutes : minutes; 
+    secondes = secondes < 10 ? "0" + secondes : secondes; 
+    timerElementChrono.innerHTML = minutes + " : " + secondes; 
     // timeChrono --; 
     if (timeChrono <= 0){
         window.location.reload();
@@ -97,7 +107,7 @@ function countDownChrono(){ // timer for the game
     else{
         timeChrono = timeChrono- 0.1;
     }
-    // timeChrono = timeChrono <= 0 ? 0 : timeChrono - 1;
+    // timeChrono = timeChrono <= 0 ? 0 : timeChrono - 1;  TERNAIRE 
    
 }
 
@@ -105,7 +115,7 @@ function countDownChrono(){ // timer for the game
 
 
 
-
+// ------------------ creating COUNT for good ANSWER or BAD ANSWER -------------------------
 
 let incrementationBonneRepChrono = document.createElement("div");
 document.body.appendChild(incrementationBonneRepChrono);
@@ -123,6 +133,8 @@ let divAnswerChrono = document.querySelector("#div3");
 
 let divBreakChrono = document.createElement("div");
 
+//---------------- CREATE PARAGRAPH FOR ANSWERS ---------------------
+
 let pUnChrono = document.createElement("p");
 let pDeuxChrono = document.createElement("p");
 let pTroisChrono = document.createElement("p");
@@ -130,12 +142,15 @@ let pQuatreChrono = document.createElement("p");
 
 
 
-// ------------ add EventListener ----------------------
+// ------------ ALL add EventListener for function in GAME CHRONO ----------------------
+
+// Call for the next question
 pUnChrono.addEventListener("click" , nextQuestionB1Chrono);
 pDeuxChrono.addEventListener("click", nextQuestionB2Chrono);
 pTroisChrono.addEventListener("click", nextQuestionB3Chrono);
 pQuatreChrono.addEventListener("click" , nextQuestionB4Chrono);
 
+// --------------- call for changing colour of ANSWERS --------------
 pUnChrono.addEventListener("mouseover" , changeColourChrono );
 pDeuxChrono.addEventListener("mouseover", changeColourChrono );
 pTroisChrono.addEventListener("mouseover", changeColourChrono );
@@ -148,6 +163,9 @@ pQuatreChrono.addEventListener("mouseout" , changeColourBackChrono );
 
 // -----------------------------------------------------
 
+
+
+
 // -------------- random value ---------------------------
 function randomValueChrono(){
     resultatChrono = Math.floor(Math.random()*maxChrono);
@@ -155,7 +173,7 @@ function randomValueChrono(){
 }
 //---------------------------------------------------------
 
-
+// ------------- Function count for INCR GOOD OR BAD ANSWER ----------------
 function incrGoodChrono(){
     incrementationBonneRepChrono.innerHTML = "bonne réponse " + iChrono++;
     timeChrono += 4;
@@ -166,7 +184,9 @@ function incrBadChrono(){
 }
 
 
-// ----------------------- next question + INCREMENTATION -----------------------
+
+
+// ----------------------- Function  next question + INCREMENTATION -----------------------
 function nextQuestionB1Chrono(){
     if (goodRepChrono == 1){
         incrGoodChrono();
@@ -209,14 +229,14 @@ function nextQuestionB4Chrono(){
 }
 
 
-// ------------------------- afficher function -----------------
+// ------------------------- function afficher game of Chrono -----------------
 function afficherFunctionChrono(){
-    // afficherSiAnswerChrono();
+  
 
     randomValueChrono();
     attribuerChrono();
     afficherSiAnswerChrono();
-    //console.log(goodRepChrono + " nfjnsdjnfjdsn")
+  
 
     divQuestionsChrono.innerHTML = allQuizzChrono;
     divQuestionsChrono.style.fontSize =  "1.5em";
@@ -228,7 +248,7 @@ function afficherFunctionChrono(){
 // -----------------------------------------------------------------
 
 
-// --------------------- AFFICHER SI ANSWER ------------------------------
+// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 ANSWERS  ------------------------------
 function afficherSiAnswerChrono(){
     if (answerOneChrono != undefined && answerTwoChrono != undefined && answerThreeChrono != undefined && answerFourChrono != undefined ){
 
@@ -266,8 +286,8 @@ function afficherSiAnswerChrono(){
 
 //---------------------------------------------------------------------------
 
-// ---------------- attribuerChrono la valeur pour questioons ----------
-function attribuerChrono(){ // va chercher les values JSON 
+// ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
+function attribuerChrono(){ 
     allQuizzChrono = allQuestions[resultatChrono]["quizz"];
     answerOneChrono = allQuestions[resultatChrono]["rep1"];
     answerTwoChrono = allQuestions[resultatChrono]["rep2"];
@@ -275,21 +295,15 @@ function attribuerChrono(){ // va chercher les values JSON
     answerFourChrono = allQuestions[resultatChrono]["rep4"];
     goodRepChrono = allQuestions[resultatChrono]["goodrep"];
 
-    
     console.log(answerOneChrono);
-
-    
-    
     console.log(answerTwoChrono);
     console.log(answerThreeChrono);
-    
     console.log(answerFourChrono);
     console.log(goodRepChrono);
-
 }
 //  ------------------------------------------------------------
 
-//------------------- CHANGE COLOR ---------------------
+//------------------- FUNCTION CHANGE COLOR OF ANSWERS  ---------------------
 function changeColourChrono(){
     this.style.color = "red"; 
 }
@@ -298,10 +312,12 @@ function changeColourBackChrono(){
 }
 //-----------------------------------------------------
 
+//---------- RELOAD PAGE FOR NEW GAME ----------------
+
 function reloadPageChrono(){
     window.location.reload();
     window.alert("Vous avez perdu");
 }
 
-// --------------------------------- test ---------------------------------------------------
+// --------------------------------- END :) ---------------------------------------------------
 
