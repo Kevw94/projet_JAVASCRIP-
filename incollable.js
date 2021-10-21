@@ -24,8 +24,6 @@ let timerElement = document.querySelector("#div1"); // for the clock
 
 
 
-
-
 // let monProjet = document.querySelector('b');
 // let space = document.createElement('br');
 
@@ -40,13 +38,19 @@ buttonPause.setAttribute("class" , "pause");
 buttonPause.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
 
+// ----------------------- button Abandonner -------------------
+let buttonGiveUp = document.createElement("button");
+buttonGiveUp.setAttribute("class" , "giveUp");
+buttonGiveUp.innerHTML = "ABANDONNER";
+//-----------------------------------------------
 
 let time = 20;
 
 
 // ----------- go in incollable game on click ----------------
 buttonIncollable.addEventListener("click" , goInGame);
-
+buttonPause.addEventListener("click" , pause);
+buttonGiveUp.addEventListener("click" , giveUp);
 
 
 
@@ -70,11 +74,24 @@ function goInGame(){ // func delete rules
 
 
     document.body.appendChild(buttonPause); // button Pause
-
+    document.body.appendChild(buttonGiveUp);
     countDown(); // call the function countDown
     setInterval(countDown , 120);
     // timerElement.appendChild(space); 
     
+}
+
+function pause(){
+    window.alert("vous avez fais une pause");
+
+    time = 20;
+    afficherFunction();
+
+}
+function giveUp(){
+    time = 0;
+    countDown();
+
 }
 
 
@@ -88,20 +105,10 @@ function countDown(){ // timer for the game
     timerElement.innerHTML = minutes + " : " + secondes; //à expliquer 
     // time --; 
     if (time <= 0){
-        time == 0;
+        window.location.reload();
         
-        //allQuizz.remove();
-        divQuestions.remove();
-        timerElement.remove();
-        pUn.remove();
-        pDeux.remove();
-        pTrois.remove();
-        pQuatre.remove();
-        incrementationBonneRep.remove();
-        incrementationMauvaiseRep.remove();
-        getB.appendChild(reglesClone);
-        
-        
+        window.alert("vous avez perdu ");
+      
     }
     else{
         time = time- 0.1;
@@ -109,4 +116,3 @@ function countDown(){ // timer for the game
     // time = time <= 0 ? 0 : time - 1;
    
 }
-
