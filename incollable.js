@@ -30,8 +30,18 @@ buttonPause.innerHTML = "PAUSE" ;
 
 // ------------------------------ Button REPRENDRE ----------------------
 let buttonReprendre = document.createElement("button");
-buttonReprendre.setAttribute("class" , "reprendreChrono");
+buttonReprendre.setAttribute("class" , "reprendre");
 buttonReprendre.innerHTML = "REPRENDRE";
+// -------------------------------------------------------------------
+// ------------------------------ Button NEW GAME ----------------------
+let buttonNewGame = document.createElement("button");
+buttonNewGame.setAttribute("class" , "newgame");
+buttonNewGame.innerHTML = "NEW GAME";
+// -------------------------------------------------------------------
+// ------------------------------ Button CONTINUErR ----------------------
+let buttonContinuer = document.createElement("button");
+buttonContinuer.setAttribute("class" , "continuer");
+buttonContinuer.innerHTML = "CONTINUER";
 // -------------------------------------------------------------------
 
 // ---------- lenght of all questions in JSON --------
@@ -47,7 +57,7 @@ let timerIncollable = true;
 // --------- variable for random result ---------
 let resultat;
 
-// ------------- variables assigned thanks to resultatChrono get in a randomFunction ---------
+// ------------- variables assigned thanks to resultat get in a randomFunction ---------
 let allQuizz; 
 let answerOne; 
 let answerTwo ;
@@ -92,7 +102,7 @@ let pQuatre = document.createElement("p");
 
 // ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE  --------
 
-buttonIncollable.addEventListener("click" , goInIncollableGame);
+buttonIncollable.addEventListener("click" , startingGame);
 
 
 // ------ if user wants to give up or take a break -------------------
@@ -102,6 +112,10 @@ buttonPause.addEventListener("click" , pause);
 buttonGiveUp.addEventListener("click" , giveUp);
 
 buttonReprendre.addEventListener("click", reprendre)
+
+buttonNewGame.addEventListener("click", newGame);
+
+buttonContinuer.addEventListener("click", continuer);
 //------------------------------------------------------------
 
 // ------------ ALL add EventListener for function in GAME INCOLLABLE ----------------------
@@ -145,33 +159,30 @@ function changeColourBack(){
  
 // ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE --------
 
-function goInIncollableGame(){ 
-    // console.log("bonjour"); // test if worth 
-
-
-    // ---- remove rules ------
+function startingGame() {
     supprRules.remove();
     supprTime.remove();
-    // ----------------
-    
+    center.appendChild(buttonNewGame);
+    center.appendChild(buttonContinuer);
+}
+
+function goInGameIncollable(){ 
+    // console.log("bonjour"); // test if worth 
+
     afficherFunction(); // function for game 
 
-
     //----- create button break and giveup ----
-    
-    document.body.appendChild(buttonGiveUp); // button Give up
+    document.body.appendChild(buttonGiveUp); // button Give Up
     document.body.appendChild(buttonPause); // button Pause
     countDown(); // call the function countDown
-    setInterval(countDown , 1000); 
+    setInterval(countDown , 1000);
 }
 
 //-----------------Fonction pour les boutons---------------------
 function giveUp(){
     window.location.reload();
     window.alert("Vous avez abandonné");
-    //time = 0;
-    //abandon();
-    //countDown();
+    
     window.localStorage.clear();
 }
 
@@ -186,6 +197,13 @@ function pause(){
     // afficherFunction();
 
 }
+function newGame(){
+    buttonContinuer.remove();
+    buttonNewGame.remove();
+    localStorage.clear();
+    goInGameIncollable();
+}
+
 function reprendre(){
     timerIncollable = true;
     buttonReprendre.remove();
@@ -193,6 +211,22 @@ function reprendre(){
     time = 20;
     afficherFunction();
 
+}
+function continuer(){
+    if (getFromLocalStorage("Time (incollable)") == undefined){
+        // buttonContinuer.remove();
+        // buttonNewGame.remove();
+        // goInGameIncollable();
+        i++;
+        j++;
+        window.alert("Il n'y a pas de sauvegarde");
+    }
+    else{
+        buttonContinuer.remove();
+        buttonNewGame.remove();
+        localStorageData();
+        goInGameIncollable();
+    }
 }
 
 
@@ -202,8 +236,8 @@ function getFromLocalStorage(key){
     return JSON.parse(localStorage.getItem(key));
 }
 function localStorageData(){
-    if (getFromLocalStorage("Time (incollable") != undefined){
-        time = getFromLocalStorage("Time (incollable");
+    if (getFromLocalStorage("Time (incollable)") != undefined){
+        time = getFromLocalStorage("Time (incollable)");
         i = getFromLocalStorage("Bonnes réponses (incollable)");
         j = getFromLocalStorage("Mauvaises réponses (incollable)");
         // for (let count = 0; count < (j+i); count++){
@@ -227,9 +261,9 @@ function countDown(){
 
     // LOCALSTORAGE----------------------------------------------
     window.localStorage.setItem("Time (incollable)", time);
-    window.localStorage.setItem("Bonnes réponses (incollable)", (i - 1));
-    window.localStorage.setItem("Mauvaises réponses (incollable)", (j - 1));
-    window.localStorage.setItem("Question (incollable) " + ((i+j) - 1), allQuizz);
+    window.localStorage.setItem("Bonnes réponses (incollable)", i);
+    window.localStorage.setItem("Mauvaises réponses (incollable)", j);
+    window.localStorage.setItem("Question (incollable) " + (i+j), allQuizz);
     //-----------------------------------------------------------
 
 
@@ -279,6 +313,7 @@ function incrBad(){
          
         if (j == 5){
             reloadPage();
+            localStorage.clear();
         } 
         else{
             incrementationMauvaiseRep.innerHTML = "Mauvaises réponses / " + j++;

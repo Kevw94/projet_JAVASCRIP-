@@ -35,9 +35,9 @@ buttonNewGameChrono.setAttribute("class" , "newgameChrono");
 buttonNewGameChrono.innerHTML = "NEW GAME";
 // -------------------------------------------------------------------
 // ------------------------------ Button CONTINUER ----------------------
-let buttonContinueChrono = document.createElement("button");
-buttonContinueChrono.setAttribute("class" , "continueChrono");
-buttonContinueChrono.innerHTML = "CONTINUER";
+let buttonContinuerChrono = document.createElement("button");
+buttonContinuerChrono.setAttribute("class" , "continuerChrono");
+buttonContinuerChrono.innerHTML = "CONTINUER";
 // -------------------------------------------------------------------
 
 
@@ -112,7 +112,7 @@ buttonReprendreChrono.addEventListener("click", reprendreChrono);
 
 buttonNewGameChrono.addEventListener("click", newGameChrono);
 
-buttonContinueChrono.addEventListener("click", continueChrono);
+buttonContinuerChrono.addEventListener("click", continuerChrono);
 
 // ------------ ALL add EventListener for function in GAME CHRONO ----------------------
 
@@ -158,7 +158,7 @@ function startingGame() {
     supprRulesChrono.remove();
     supprTimeChrono.remove();
     center.appendChild(buttonNewGameChrono);
-    center.appendChild(buttonContinueChrono);
+    center.appendChild(buttonContinuerChrono);
 }
 
 function goInGameChrono(){ 
@@ -195,23 +195,24 @@ function reprendreChrono(){
 }
 
 function newGameChrono(){
-    buttonContinueChrono.remove();
+    buttonContinuerChrono.remove();
     buttonNewGameChrono.remove();
     localStorage.clear();
     goInGameChrono();
 }
 
-function continueChrono(){
+function continuerChrono(){
     if (getFromLocalStorage("Time (Chrono)" == undefined)){
-        // buttonContinueChrono.remove();
+        // buttonContinuerChrono.remove();
         // buttonNewGameChrono.remove();
         // goInGameChrono();
         iChrono++;
         jChrono++;
-        windows.alert("Il n'y a pas de sauvegarde");
+
+        window.alert("Il n'y a pas de sauvegarde");
     }
     else{
-        buttonContinueChrono.remove();
+        buttonContinuerChrono.remove();
         buttonNewGameChrono.remove();
         localStorageDataChrono();
         goInGameChrono();
