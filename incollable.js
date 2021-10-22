@@ -214,9 +214,6 @@ function reprendre(){
 }
 function continuer(){
     if (getFromLocalStorage("Time (incollable)") == undefined){
-       
-        i++;
-        j++;
         window.alert("Il n'y a pas de sauvegarde");
     }
     else{
@@ -318,7 +315,7 @@ function incrBad(){
     }
 }
    
-let noRepeat = [];
+let noRepeat = []; // array for noRepeat QUESTIONS
 
 
 // ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------

@@ -198,10 +198,7 @@ function newGameChrono(){
 }
 
 function continuerChrono(){
-    if (getFromLocalStorage("Time (Chrono)" == undefined)){
-        iChrono++;
-        jChrono++;
-
+    if (getFromLocalStorage("Time (Chrono) ") == undefined){
         window.alert("Il n'y a pas de sauvegarde");
     }
     else{
@@ -290,7 +287,7 @@ function incrBadChrono(){
 
 
 
-let noRepeatChrono = [];
+let noRepeatChrono = []; // array for noRepeat QUESTIONS 
 
 
 // ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
