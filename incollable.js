@@ -28,6 +28,11 @@ buttonPause.setAttribute("class" , "pause");
 buttonPause.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
 
+// ------------------------------ Button REPRENDRE ----------------------
+let buttonReprendre = document.createElement("button");
+buttonReprendre.setAttribute("class" , "reprendreChrono");
+buttonReprendre.innerHTML = "REPRENDRE";
+// -------------------------------------------------------------------
 
 // ---------- lenght of all questions in JSON --------
 let max = allQuestions.length;
@@ -35,7 +40,7 @@ let max = allQuestions.length;
 //time for game INCOLLABLE -------------
 let time = 20;
 
-// -------------------------------------------------------
+let timerIncollable = true;
 
 //---------------------VARIABLES JSON -------------------------
 
@@ -85,8 +90,6 @@ let pQuatre = document.createElement("p");
 
 
 
-
-
 // ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE  --------
 
 buttonIncollable.addEventListener("click" , goInIncollableGame);
@@ -97,14 +100,20 @@ buttonIncollable.addEventListener("click" , goInIncollableGame);
 buttonPause.addEventListener("click" , pause);
 
 buttonGiveUp.addEventListener("click" , giveUp);
+
+buttonReprendre.addEventListener("click", reprendre)
 //------------------------------------------------------------
 
 // ------------ ALL add EventListener for function in GAME INCOLLABLE ----------------------
+
+// Call for the next question
 pUn.addEventListener("click" , nextQuestionB1);
 pDeux.addEventListener("click", nextQuestionB2);
 pTrois.addEventListener("click", nextQuestionB3);
 pQuatre.addEventListener("click" , nextQuestionB4);
 
+
+// --------------- call for changing colour of ANSWERS --------------
 pUn.addEventListener("mouseover" , changeColour );
 pDeux.addEventListener("mouseover", changeColour );
 pTrois.addEventListener("mouseover", changeColour );
@@ -137,9 +146,10 @@ function changeColourBack(){
 // ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE --------
 
 function goInIncollableGame(){ 
+    // console.log("bonjour"); // test if worth 
 
-    console.log("bonjour");
-    // ---- remove ------
+
+    // ---- remove rules ------
     supprRules.remove();
     supprTime.remove();
     // ----------------
@@ -147,45 +157,97 @@ function goInIncollableGame(){
     afficherFunction(); // function for game 
 
 
-    document.body.appendChild(buttonPause); // button Pause
-    document.body.appendChild(buttonGiveUp);
-    countDown(); // call the function countDown
-    setInterval(countDown , 120);
-    // timerElement.appendChild(space); 
+    //----- create button break and giveup ----
     
+    document.body.appendChild(buttonGiveUp); // button Give up
+    document.body.appendChild(buttonPause); // button Pause
+    countDown(); // call the function countDown
+    setInterval(countDown , 1000); 
 }
 
-function pause(){
-    window.alert("vous avez fais une pause");
+//-----------------Fonction pour les boutons---------------------
+function giveUp(){
+    window.location.reload();
+    window.alert("Vous avez abandonné");
+    //time = 0;
+    //abandon();
+    //countDown();
+    window.localStorage.clear();
+}
 
+
+function pause(){
+    timerIncollable = false;
+    buttonPause.remove();
+    document.body.appendChild(buttonReprendre);
+
+    // window.alert("vous avez fais une pause");
+    time = 20;
+    // afficherFunction();
+
+}
+function reprendre(){
+    timerIncollable = true;
+    buttonReprendre.remove();
+    document.body.appendChild(buttonPause);
     time = 20;
     afficherFunction();
 
 }
-function giveUp(){
-    time = 0;
-    countDown();
 
+
+
+//--------------------Fonction LOCALSTORAGE--------------------
+function getFromLocalStorage(key){
+    return JSON.parse(localStorage.getItem(key));
+}
+function localStorageData(){
+    if (getFromLocalStorage("Time") != undefined){
+        time = getFromLocalStorage("Time");
+        i = getFromLocalStorage("Bonnes réponses");
+        j = getFromLocalStorage("Mauvaises réponses");
+        // for (let count = 0; count < (j+i); count++){
+        //     if (getFromLocalStorage("") == allQuizz)
+        // }
+    }
 }
 
 
 
 
-function countDown(){ // function timer for the game INCOLLABLE
+//------ function timer for the game INCOLLABLE -------
+function countDown(){ 
     let minutes = parseInt(time / 60, 10);
     let secondes = parseInt(time % 60 , 10);
     minutes = minutes < 10 ? "0" + minutes : minutes; // à expliquer
     secondes = secondes < 10 ? "0" + secondes : secondes; // à expliquer 
     timerElement.innerHTML = minutes + " : " + secondes; //à expliquer 
     // time --; 
-    if (time <= 0){
-        window.location.reload();
 
-        window.alert("vous avez perdu ");
+
+    // LOCALSTORAGE----------------------------------------------
+    window.localStorage.setItem("Time", time);
+    window.localStorage.setItem("Bonnes réponses", (i - 1));
+    window.localStorage.setItem("Mauvaises réponses", (jChrono - 1));
+    window.localStorage.setItem("Question (Chrono) " + ((i+j) - 1), allQuizz);
+    //-----------------------------------------------------------
+
+
+
+
+
+
+    if (time <= 0){
+        reloadPage();
+        window.localStorage.clear();
       
     }
-    else{
-        time = time- 0.1;
+
+    else if (timerIncollable == true){
+        time = time- 1;
+    }
+    else {
+        time = time ; 
     }
     // time = time <= 0 ? 0 : time - 1;
    
@@ -204,28 +266,32 @@ function randomValue(){
 
 
 
-
-
-
+// ------------- Function count for INCR GOOD OR BAD ANSWER ----------------
 
 function incrGood(){
-    incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+    if(timerIncollable == true){
+        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+    }
+
 }
 function incrBad(){
-    
-    if (j == 5){
-        time = 0;
-        countDown()
+    if(timerIncollable == true){
+         
+        if (j == 5){
+            time = 0;
+            countDown()
+        }
+        else{
+            incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+        }
+        
     }
-    else{
-        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
-    }
+   
 }
 
 
-// ---------------- attributeValuesJson la valeur pour questioons ----------
+// ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
 function attributeValuesJson(){
-    // randomValue();
     allQuizz = allQuestions[resultat]["quizz"];
     answerOne = allQuestions[resultat]["rep1"];
     answerTwo = allQuestions[resultat]["rep2"];
@@ -283,29 +349,38 @@ function nextQuestionB4(){
 }
 
 
-// ------------------------- afficher function -----------------
+// ------------------------- function print game of Incollable  -----------------
 function afficherFunction(){
-    randomValue();
-    if (time == 0){
-        countDown()
-    } 
-    else{
-        time = 20 ;
+    if(timerIncollable == true){
+        randomValue();
+        if (time == 0){
+            countDown()
+        } 
+        else{
+            time = 20 ;
 
-    }
-    attributeValuesJson();
-    afficherSiAnswer();  
-    divQuestions.innerHTML = allQuizz;
-    divQuestions.style.fontSize =  "1.5em";
+        }
+        attributeValuesJson();
+        afficherSiAnswer();  
+        divQuestions.innerHTML = allQuizz;
+        divQuestions.style.fontSize =  "1.5em";
     
 
-    divAnswer.appendChild(divBreak);
+        divAnswer.appendChild(divBreak);
+
+    }
+    else{
+    
+        window.alert("Le jeu est en pause");
+
+    }
+    
     
 }
 // -----------------------------------------------------------------
 
 
-// --------------------- AFFICHER SI ANSWER ------------------------------
+// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 ANSWERS  ------------------------------
 function afficherSiAnswer(){
     if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour != undefined ){
 
@@ -341,4 +416,18 @@ function afficherSiAnswer(){
 
 }
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------- RELOAD PAGE FOR NEW GAME ----------------
+
+function reloadPage(){
+    window.location.reload();
+    window.alert("Vous avez perdu");
+}
+
+// function abandon(){
+//     window.location.reload();
+//     window.alert("Vous avez abandonné");
+
+// }
+
+// --------------------------------- END :) ---------------------------------------------------
+

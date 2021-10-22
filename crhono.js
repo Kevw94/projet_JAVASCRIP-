@@ -3,9 +3,9 @@ let buttonChrono = document.querySelector("#button1"); //get Chrono
 // ------------------------------------------------------------------
 
 
-// --------------------  suppr for go in game INCOLLABLE -------------------
+// --------------------  suppr for go in game CHRONO -------------------
 let supprRulesChrono = document.querySelector("#regles"); //get the all rules 
-let  supprTimeChrono = document.querySelector("#tmp"); //get the div "time"
+let supprTimeChrono = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
 
 
@@ -16,12 +16,17 @@ let timerElementChrono = document.querySelector("#div1"); // for the clock
 //-----------------------Button ABANDONNER------------------
 let buttonGiveUpChrono = document.createElement("button");
 buttonGiveUpChrono.setAttribute("class" , "abandonner");
-buttonGiveUpChrono.innerHTML = "ABANDONNER" ; 
+buttonGiveUpChrono.innerHTML = "ABANDONNER" ;
 //----------------------------------------------------------------
 // ------------------------------ Button PAUSE ----------------------
 let buttonPauseChrono = document.createElement("button");
 buttonPauseChrono.setAttribute("class" , "pauseChrono");
-buttonPauseChrono.innerHTML = "PAUSE" ; 
+buttonPauseChrono.innerHTML = "PAUSE" ;
+// -------------------------------------------------------------------
+// ------------------------------ Button REPRENDRE ----------------------
+let buttonReprendreChrono = document.createElement("button");
+buttonReprendreChrono.setAttribute("class" , "reprendreChrono");
+buttonReprendreChrono.innerHTML = "REPRENDRE";
 // -------------------------------------------------------------------
 
 
@@ -31,6 +36,7 @@ let maxChrono = allQuestions.length;
 //time for game CHRONO ----------
 let timeChrono = 180;
 
+let timerChrono = true;
 // ------------ VARIABLES JSON -------------------
 // --------- variable for random result ---------
 let resultatChrono;
@@ -91,6 +97,8 @@ buttonGiveUpChrono.addEventListener("click", giveUpChrono);
 
 buttonPauseChrono.addEventListener("click", pauseChrono);
 
+buttonReprendreChrono.addEventListener("click", reprendreChrono)
+
 
 
 // ------------ ALL add EventListener for function in GAME CHRONO ----------------------
@@ -141,51 +149,85 @@ function goInGameChrono(){
     supprTimeChrono.remove();
     // ----------------
 
-    afficherFunctionChrono(); // function of game 
+    afficherFunctionChrono(); // function for game 
 
     //----- create button break and giveup ----
     document.body.appendChild(buttonGiveUpChrono); // button Give Up
     document.body.appendChild(buttonPauseChrono); // button Pause
     countDownChrono(); // call the function countDownChrono
-    setInterval(countDownChrono , 120);    
+    setInterval(countDownChrono , 1000);    
 }
 
-
+//-----------------Fonction pour les boutons---------------------
 function giveUpChrono(){
-    timeChrono = 0;
-    countDownChrono();
+    window.location.reload();
+    window.alert("Vous avez abandonné");
+    
+    // timeChrono = 0;
+    // countDownChrono();
+    window.localStorage.clear();
 }
 function pauseChrono(){
-    window.alert("Vous avez mis le jeu en pause ");
+    timerChrono = false;
+    buttonPauseChrono.remove();
+    document.body.appendChild(buttonReprendreChrono);
+}
+function reprendreChrono(){
+    timerChrono = true;
+    buttonReprendreChrono.remove();
+    document.body.appendChild(buttonPauseChrono);
     afficherFunctionChrono();
 }
+//---------------------------------------------------------------
+//--------------------Fonction LOCALSTORAGE--------------------
+function getFromLocalStorageChrono(key){
+    return JSON.parse(localStorage.getItem(key));
+}
+function localStorageDataChrono(){
+    if (getFromLocalStorageChrono("Time Chrono") != undefined){
+        timeChrono = getFromLocalStorageChrono("Time Chrono");
+        iChrono = getFromLocalStorageChrono("Bonnes réponses(Chrono)");
+        jChrono = getFromLocalStorageChrono("Mauvaises réponses(Chrono)");
+        // for (let count = 0; count < (j+i); count++){
+        //     if (getFromLocalStorage("") == allQuizz)
+        // }
+    }
+}
 
-
-function countDownChrono(){ // function timer for the game CHRONO
+//-----------------------------------------------------------------
+//  ------- function timer for the game CHRONO ----------
+function countDownChrono(){ 
     let minutes = parseInt(timeChrono / 60, 10);
     let secondes = parseInt(timeChrono % 60 , 10);
     minutes = minutes < 10 ? "0" + minutes : minutes; 
     secondes = secondes < 10 ? "0" + secondes : secondes; 
     timerElementChrono.innerHTML = minutes + " : " + secondes; 
+    // LOCALSTORAGE----------------------------------------------
+    window.localStorage.setItem("Time (Chrono) ", timeChrono);
+    window.localStorage.setItem("Bonnes réponses (Chrono) ", (iChrono - 1));
+    window.localStorage.setItem("Mauvaises réponses (Chrono) ", (jChrono - 1));
+    window.localStorage.setItem("Question (Chrono) " + ((iChrono+jChrono) - 1), allQuizzChrono);
+    //-----------------------------------------------------------
     // timeChrono --; 
     if (timeChrono <= 0){
         window.location.reload();
         window.alert("Vous avez perdu");
+        window.localStorage.clear();
     }
     else if(timeChrono > 180){
         timeChrono = 180;
     }
+//---------------Pour stopper le timer---------------------------
+    else if (timerChrono == true){
+        timeChrono--;
+    }
     else{
-        timeChrono = timeChrono- 0.1;
+        timeChrono = timeChrono;
     }
     // timeChrono = timeChrono <= 0 ? 0 : timeChrono - 1;  TERNAIRE 
    
 }
-
-
-
-
-
+//----------------------------------------------------------------
 
 
 
@@ -197,16 +239,47 @@ function randomValueChrono(){
 }
 //---------------------------------------------------------
 
+
+
+
 // ------------- Function count for INCR GOOD OR BAD ANSWER ----------------
+
 function incrGoodChrono(){
-    incrementationBonneRepChrono.innerHTML = "bonne réponse " + iChrono++;
-    timeChrono += 4;
+    if (timerChrono == true){
+        incrementationBonneRepChrono.innerHTML = "bonne réponse " + iChrono++;
+        timeChrono += 4;
+    }
+    
 }
 function incrBadChrono(){
-    incrementationMauvaiseRepChrono.innerHTML = "mauvaise réponse " + jChrono++;
-    timeChrono -= 2;
+    if (timerChrono == true){
+        incrementationMauvaiseRepChrono.innerHTML = "mauvaise réponse " + jChrono++;
+        timeChrono -= 2;
+    }
 }
 
+
+
+
+
+
+
+// ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
+function attributeValuesJsonChrono(){ 
+    allQuizzChrono = allQuestions[resultatChrono]["quizz"];
+    answerOneChrono = allQuestions[resultatChrono]["rep1"];
+    answerTwoChrono = allQuestions[resultatChrono]["rep2"];
+    answerThreeChrono = allQuestions[resultatChrono]["rep3"];
+    answerFourChrono = allQuestions[resultatChrono]["rep4"];
+    goodRepChrono = allQuestions[resultatChrono]["goodrep"];
+
+    console.log(answerOneChrono);
+    console.log(answerTwoChrono);
+    console.log(answerThreeChrono);
+    console.log(answerFourChrono);
+    console.log(goodRepChrono);
+}
+//  ------------------------------------------------------------
 
 
 
@@ -253,20 +326,26 @@ function nextQuestionB4Chrono(){
 }
 
 
-// ------------------------- function afficher game of Chrono -----------------
+// ------------------------- function print game of Chrono -----------------
 function afficherFunctionChrono(){
-  
-
-    randomValueChrono();
-    attribuerChrono();
-    afficherSiAnswerChrono();
-  
-
-    divQuestionsChrono.innerHTML = allQuizzChrono;
-    divQuestionsChrono.style.fontSize =  "1.5em";
+    if (timerChrono == true){
+        randomValueChrono();
     
-
-    divAnswerChrono.appendChild(divBreakChrono);
+    
+        attributeValuesJsonChrono();
+        afficherSiAnswerChrono();
+      
+    
+        divQuestionsChrono.innerHTML = allQuizzChrono;
+        divQuestionsChrono.style.fontSize =  "1.5em";
+        
+    
+        divAnswerChrono.appendChild(divBreakChrono);
+    }
+    else {
+        window.alert("Le jeu est en pause");
+    }
+ 
     
 }
 // -----------------------------------------------------------------
@@ -309,23 +388,6 @@ function afficherSiAnswerChrono(){
 }
 
 //---------------------------------------------------------------------------
-
-// ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
-function attribuerChrono(){ 
-    allQuizzChrono = allQuestions[resultatChrono]["quizz"];
-    answerOneChrono = allQuestions[resultatChrono]["rep1"];
-    answerTwoChrono = allQuestions[resultatChrono]["rep2"];
-    answerThreeChrono = allQuestions[resultatChrono]["rep3"];
-    answerFourChrono = allQuestions[resultatChrono]["rep4"];
-    goodRepChrono = allQuestions[resultatChrono]["goodrep"];
-
-    console.log(answerOneChrono);
-    console.log(answerTwoChrono);
-    console.log(answerThreeChrono);
-    console.log(answerFourChrono);
-    console.log(goodRepChrono);
-}
-//  ------------------------------------------------------------
 
 
 //---------- RELOAD PAGE FOR NEW GAME ----------------
