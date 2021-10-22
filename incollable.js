@@ -202,10 +202,10 @@ function getFromLocalStorage(key){
     return JSON.parse(localStorage.getItem(key));
 }
 function localStorageData(){
-    if (getFromLocalStorage("Time") != undefined){
-        time = getFromLocalStorage("Time");
-        i = getFromLocalStorage("Bonnes réponses");
-        j = getFromLocalStorage("Mauvaises réponses");
+    if (getFromLocalStorage("Time (incollable") != undefined){
+        time = getFromLocalStorage("Time (incollable");
+        i = getFromLocalStorage("Bonnes réponses (incollable)");
+        j = getFromLocalStorage("Mauvaises réponses (incollable)");
         // for (let count = 0; count < (j+i); count++){
         //     if (getFromLocalStorage("") == allQuizz)
         // }
@@ -226,10 +226,10 @@ function countDown(){
 
 
     // LOCALSTORAGE----------------------------------------------
-    window.localStorage.setItem("Time", time);
-    window.localStorage.setItem("Bonnes réponses", (i - 1));
-    window.localStorage.setItem("Mauvaises réponses", (jChrono - 1));
-    window.localStorage.setItem("Question (Chrono) " + ((i+j) - 1), allQuizz);
+    window.localStorage.setItem("Time (incollable)", time);
+    window.localStorage.setItem("Bonnes réponses (incollable)", (i - 1));
+    window.localStorage.setItem("Mauvaises réponses (incollable)", (j - 1));
+    window.localStorage.setItem("Question (incollable) " + ((i+j) - 1), allQuizz);
     //-----------------------------------------------------------
 
 
@@ -237,13 +237,15 @@ function countDown(){
 
 
 
-    if (time <= 0){
-        reloadPage();
-        window.localStorage.clear();
+    if (time == 0){
+        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+        afficherFunction();
+        //reloadPage();
+        //window.localStorage.clear();
       
     }
 
-    else if (timerIncollable == true){
+    if (timerIncollable == true){
         time = time- 1;
     }
     else {
@@ -270,7 +272,7 @@ function randomValue(){
 
 function incrGood(){
     if(timerIncollable == true){
-        incrementationBonneRep.innerHTML = "bonne réponse " + i++;
+        incrementationBonneRep.innerHTML = "Bonnes réponses / " + i++;
     }
 
 }
@@ -278,16 +280,16 @@ function incrBad(){
     if(timerIncollable == true){
          
         if (j == 5){
-            time = 0;
-            countDown()
-        }
+            reloadPage();
+        } 
         else{
-            incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+            incrementationMauvaiseRep.innerHTML = "Mauvaises réponses / " + j++;
         }
         
     }
-   
 }
+   
+
 
 
 // ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
@@ -349,17 +351,13 @@ function nextQuestionB4(){
 }
 
 
-// ------------------------- function print game of Incollable  -----------------
+// ------------------------- function print game of Incollable called FOR EACH NEXT QUESTIONS AND FOR FIRST ENTERING IN GAME   -----------------
 function afficherFunction(){
     if(timerIncollable == true){
         randomValue();
-        if (time == 0){
-            countDown()
-        } 
-        else{
-            time = 20 ;
+        time = 20 ;
 
-        }
+        
         attributeValuesJson();
         afficherSiAnswer();  
         divQuestions.innerHTML = allQuizz;
@@ -368,52 +366,86 @@ function afficherFunction(){
 
         divAnswer.appendChild(divBreak);
 
-    }
-    else{
+        }
+        else{
     
-        window.alert("Le jeu est en pause");
+            window.alert("Le jeu est en pause");
 
-    }
+        }
     
     
 }
 // -----------------------------------------------------------------
 
 
-// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 ANSWERS  ------------------------------
+// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 + ALEATORY OF ANSWERS -----
+
+
 function afficherSiAnswer(){
+    let repAlea= new Array()
     if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour != undefined ){
+        repAlea.length = 4;
+        let i=0;
+        let random;
+        repAlea[0]=pUn;
+        repAlea[1]=pDeux;
+        repAlea[2]=pTrois;
+        repAlea[3]=pQuatre;
 
         pUn.innerHTML = answerOne; 
-        divBreak.appendChild(pUn);
         pDeux.innerHTML = answerTwo;
-        divBreak.appendChild(pDeux);
         pTrois.innerHTML = answerThree;
-        divBreak.appendChild(pTrois);
         pQuatre.innerHTML = answerFour;
-        divBreak.appendChild(pQuatre);
-        
+
+        while( i<repAlea.length){
+            random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+               divBreak.appendChild(repAlea[random])
+               repAlea[random]="selected"
+               i++
+            }
+        }
     }
     else if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour == undefined ){
+        repAlea.length = 3
+        let i=0
+        let random
+        repAlea[0]=pUn
+        repAlea[1]=pDeux
+        repAlea[2]=pTrois
         pUn.innerHTML = answerOne; 
-        divBreak.appendChild(pUn);
         pDeux.innerHTML = answerTwo;
-        divBreak.appendChild(pDeux);
         pTrois.innerHTML = answerThree;
-        divBreak.appendChild(pTrois);
         pQuatre.remove();
+        while( i<repAlea.length){
+            random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+                divBreak.appendChild(repAlea[random])
+                repAlea[random]="selected"
+                i++
+            }
+        }
+        
     }
     else {
-        pUn.innerHTML = answerOne; 
-        divBreak.appendChild(pUn);
+        let i=0
+        let random
+        repAlea.length = 2
+        repAlea[0]=pUn
+        repAlea[1]=pDeux
+        pUn.innerHTML = answerOne;
         pDeux.innerHTML = answerTwo;
-        divBreak.appendChild(pDeux);
         pTrois.remove();
         pQuatre.remove();
-    }
-   
-
-
+        while( i<repAlea.length){
+                random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+                divBreak.appendChild(repAlea[random])
+                repAlea[random]="selected"
+                i++
+           }
+        }
+    } 
 }
 
 //---------- RELOAD PAGE FOR NEW GAME ----------------

@@ -246,14 +246,14 @@ function randomValueChrono(){
 
 function incrGoodChrono(){
     if (timerChrono == true){
-        incrementationBonneRepChrono.innerHTML = "bonne réponse " + iChrono++;
+        incrementationBonneRepChrono.innerHTML = "Bonnes réponses / " + iChrono++;
         timeChrono += 4;
     }
     
 }
 function incrBadChrono(){
     if (timerChrono == true){
-        incrementationMauvaiseRepChrono.innerHTML = "mauvaise réponse " + jChrono++;
+        incrementationMauvaiseRepChrono.innerHTML = "Mauvaises réponses / " + jChrono++;
         timeChrono -= 2;
     }
 }
@@ -326,65 +326,96 @@ function nextQuestionB4Chrono(){
 }
 
 
-// ------------------------- function print game of Chrono -----------------
+// ------------------------- function print game of Chrono called FOR EACH NEXT QUESTIONS AND FOR FIRST ENTERING IN GAME  -----------------
 function afficherFunctionChrono(){
     if (timerChrono == true){
         randomValueChrono();
     
-    
         attributeValuesJsonChrono();
         afficherSiAnswerChrono();
       
-    
         divQuestionsChrono.innerHTML = allQuizzChrono;
         divQuestionsChrono.style.fontSize =  "1.5em";
-        
     
         divAnswerChrono.appendChild(divBreakChrono);
     }
     else {
         window.alert("Le jeu est en pause");
     }
- 
-    
 }
 // -----------------------------------------------------------------
 
 
-// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 ANSWERS  ------------------------------
+// --------------------- AFFICHER if 4 ANSWERS or 3 ANSWERS or 2 ANSWERS + ALEATORY OF ANSWERS ------------------------------
+
 function afficherSiAnswerChrono(){
+    let repAlea= new Array()
     if (answerOneChrono != undefined && answerTwoChrono != undefined && answerThreeChrono != undefined && answerFourChrono != undefined ){
+        repAlea.length = 4
+        let i=0
+        let random
+        //position des paragraphes dans le tableau
+        repAlea[0]=pUnChrono
+        repAlea[1]=pDeuxChrono
+        repAlea[2]=pTroisChrono
+        repAlea[3]=pQuatreChrono
 
         pUnChrono.innerHTML = answerOneChrono; 
-        divBreakChrono.appendChild(pUnChrono);
         pDeuxChrono.innerHTML = answerTwoChrono;
-        divBreakChrono.appendChild(pDeuxChrono);
         pTroisChrono.innerHTML = answerThreeChrono;
-        divBreakChrono.appendChild(pTroisChrono);
         pQuatreChrono.innerHTML = answerFourChrono;
-        divBreakChrono.appendChild(pQuatreChrono);
-        
+        //shuffle de la postion des paragraphes
+        while( i<repAlea.length){
+            random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+               divBreakChrono.appendChild(repAlea[random])
+               repAlea[random]="selected"
+               i++
+            }
+        }
     }
     else if (answerOneChrono != undefined && answerTwoChrono != undefined && answerThreeChrono != undefined && answerFourChrono == undefined ){
+        repAlea.length = 3;
+        let i=0;
+        let random;
+        //position des paragraphes dans le tableau
+        repAlea[0]=pUnChrono;
+        repAlea[1]=pDeuxChrono;
+        repAlea[2]=pTroisChrono;
         pUnChrono.innerHTML = answerOneChrono; 
-        divBreakChrono.appendChild(pUnChrono);
         pDeuxChrono.innerHTML = answerTwoChrono;
-        divBreakChrono.appendChild(pDeuxChrono);
         pTroisChrono.innerHTML = answerThreeChrono;
-        divBreakChrono.appendChild(pTroisChrono);
         pQuatreChrono.remove();
+        //shuffle de la postion des paragraphes
+        while( i<repAlea.length){
+            random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+                divBreakChrono.appendChild(repAlea[random])
+                repAlea[random]="selected"
+                i++
+            }
+        }
     }
     else {
-        pUnChrono.innerHTML = answerOneChrono; 
-        divBreakChrono.appendChild(pUnChrono);
-        pDeuxChrono.innerHTML = answerTwoChrono;
-        divBreakChrono.appendChild(pDeuxChrono);
-        pTroisChrono.remove();
-        pQuatreChrono.remove();
-    }
-   
-
-
+        let i=0
+        let random
+        repAlea.length = 2
+        repAlea[0]=pUnChrono
+        repAlea[1]=pDeuxChrono
+        pUnChrono.innerHTML = answerOneChrono;
+        pDeuxChrono.innerHTML = answerTwoChrono; 
+        pTrois.remove();
+        pQuatre.remove();
+        //shuffle de la postion des paragraphes
+        while( i<repAlea.length){
+                random =Math.floor(Math.random()*repAlea.length)
+            if (repAlea[random]!= "selected"){
+                divBreakChrono.appendChild(repAlea[random])
+                repAlea[random]="selected"
+                i++
+           }
+        }
+    } 
 }
 
 //---------------------------------------------------------------------------
