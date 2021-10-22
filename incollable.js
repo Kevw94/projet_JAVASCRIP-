@@ -8,7 +8,7 @@ document.body.style.background =  "#545349" ;
 let buttonIncollable = document.querySelector("#button2"); //get incollab
 // ------------------------------------------------------------------
 
-// --------------------  suppr for go in game -------------------
+// --------------------  suppr for go in game INCOLLABLE -------------------
 let supprRules = document.querySelector("#regles"); //get the all rules 
 let supprTime = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
@@ -27,10 +27,12 @@ let buttonPause = document.createElement("button");
 buttonPause.setAttribute("class" , "pause");
 buttonPause.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
+
+
 // ---------- lenght of all questions in JSON --------
 let max = allQuestions.length;
 
-
+//time for game INCOLLABLE -------------
 let time = 20;
 
 // -------------------------------------------------------
@@ -54,7 +56,7 @@ let j = 1;
 
 
 //-----------------------------------------------------------
-//-----------print questions --------------------------------
+// ------------------ creating COUNT for good ANSWER or BAD ANSWER -------------------------
 
 let incrementationBonneRep = document.createElement("div");
 document.body.appendChild(incrementationBonneRep);
@@ -72,19 +74,32 @@ let divAnswer = document.querySelector("#div3");
 
 let divBreak = document.createElement("div");
 
+//---------------- CREATE PARAGRAPH FOR ANSWERS ---------------------
+
 let pUn = document.createElement("p");
 let pDeux = document.createElement("p");
 let pTrois = document.createElement("p");
 let pQuatre = document.createElement("p");
 
 // ------------------------------------------------------------
-// ----------- go in incollable game on click ----------------
+
+
+
+
+
+// ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE  --------
+
 buttonIncollable.addEventListener("click" , goInIncollableGame);
+
+
+// ------ if user wants to give up or take a break -------------------
+
 buttonPause.addEventListener("click" , pause);
+
 buttonGiveUp.addEventListener("click" , giveUp);
 //------------------------------------------------------------
 
-// ------------ add EventListener ----------------------
+// ------------ ALL add EventListener for function in GAME INCOLLABLE ----------------------
 pUn.addEventListener("click" , nextQuestionB1);
 pDeux.addEventListener("click", nextQuestionB2);
 pTrois.addEventListener("click", nextQuestionB3);
@@ -102,7 +117,7 @@ pQuatre.addEventListener("mouseout" , changeColourBack );
 
 // -----------------------------------------------------
 
-//------------------- CHANGE COLOR ---------------------
+//------------------- FUNCTION CHANGE COLOR OF ANSWERS ---------------------
 function changeColour(){
     this.style.color = "red"; 
 }
@@ -119,8 +134,9 @@ function changeColourBack(){
 
 
  
+// ------------------ FUNCTION FOR GOING IN GAME INCOLLABLE --------
 
-function goInIncollableGame(){ // func delete rules
+function goInIncollableGame(){ 
 
     console.log("bonjour");
     // ---- remove ------
@@ -155,7 +171,7 @@ function giveUp(){
 
 
 
-function countDown(){ // timer for the game 
+function countDown(){ // function timer for the game INCOLLABLE
     let minutes = parseInt(time / 60, 10);
     let secondes = parseInt(time % 60 , 10);
     minutes = minutes < 10 ? "0" + minutes : minutes; // à expliquer

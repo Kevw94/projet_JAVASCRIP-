@@ -3,7 +3,7 @@ let buttonChrono = document.querySelector("#button1"); //get Chrono
 // ------------------------------------------------------------------
 
 
-// --------------------  suppr for go in game -------------------
+// --------------------  suppr for go in game INCOLLABLE -------------------
 let supprRulesChrono = document.querySelector("#regles"); //get the all rules 
 let  supprTimeChrono = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
@@ -23,9 +23,12 @@ let buttonPauseChrono = document.createElement("button");
 buttonPauseChrono.setAttribute("class" , "pauseChrono");
 buttonPauseChrono.innerHTML = "PAUSE" ; 
 // -------------------------------------------------------------------
+
+
 // ---------- lenght of all questions in JSON --------
 let maxChrono = allQuestions.length;
 
+//time for game CHRONO ----------
 let timeChrono = 180;
 
 // ------------ VARIABLES JSON -------------------
@@ -42,76 +45,6 @@ let answerFourChrono;
 // --------------- variables for count ++ or -- --------------------
 let iChrono = 1;
 let jChrono = 1;
-
-// ----------- go in CHRONO game on click ----------------
-buttonChrono.addEventListener("click" , goInGameChrono);
-
-
-
-// ------ if user wants to give up or take a break -------------------
-
-buttonGiveUpChrono.addEventListener("click", giveUpChrono);
-
-buttonPauseChrono.addEventListener("click", pauseChrono);
-
-
-
-
-
-
-
-function goInGameChrono(){ // func delete rules
-    // console.log("bonjour"); // test if worth 
-
-    // ---- remove rules  ------
-    supprRulesChrono.remove();
-    supprTimeChrono.remove();
-    // ----------------
-
-    afficherFunctionChrono(); // function of game 
-
-    //----- create button break and giveup ----
-    document.body.appendChild(buttonGiveUpChrono); // button Give Up
-    document.body.appendChild(buttonPauseChrono); // button Pause
-
-
-
-    countDownChrono(); // call the function countDownChrono
-    setInterval(countDownChrono , 120);    
-}
-
-function giveUpChrono(){
-    timeChrono = 0;
-    countDownChrono();
-}
-function pauseChrono(){
-    window.alert("Vous avez mis le jeu en pause ");
-    afficherFunctionChrono();
-}
-
-
-function countDownChrono(){ // function timer for the game 
-    let minutes = parseInt(timeChrono / 60, 10);
-    let secondes = parseInt(timeChrono % 60 , 10);
-    minutes = minutes < 10 ? "0" + minutes : minutes; 
-    secondes = secondes < 10 ? "0" + secondes : secondes; 
-    timerElementChrono.innerHTML = minutes + " : " + secondes; 
-    // timeChrono --; 
-    if (timeChrono <= 0){
-        window.location.reload();
-        window.alert("Vous avez perdu");
-    }
-    else if(timeChrono > 180){
-        timeChrono = 180;
-    }
-    else{
-        timeChrono = timeChrono- 0.1;
-    }
-    // timeChrono = timeChrono <= 0 ? 0 : timeChrono - 1;  TERNAIRE 
-   
-}
-
-
 
 
 
@@ -142,6 +75,24 @@ let pQuatreChrono = document.createElement("p");
 
 
 
+// ------------------------------------------------------------
+
+
+
+
+// ----------- go in CHRONO game on click ----------------
+buttonChrono.addEventListener("click" , goInGameChrono);
+
+
+
+// ------ if user wants to give up or take a break -------------------
+
+buttonGiveUpChrono.addEventListener("click", giveUpChrono);
+
+buttonPauseChrono.addEventListener("click", pauseChrono);
+
+
+
 // ------------ ALL add EventListener for function in GAME CHRONO ----------------------
 
 // Call for the next question
@@ -162,6 +113,79 @@ pTroisChrono.addEventListener("mouseout", changeColourBackChrono );
 pQuatreChrono.addEventListener("mouseout" , changeColourBackChrono );
 
 // -----------------------------------------------------
+
+
+//------------------- FUNCTION CHANGE COLOR OF ANSWERS  ---------------------
+function changeColourChrono(){
+    this.style.color = "red"; 
+}
+function changeColourBackChrono(){
+    this.style.color = "black"; 
+}
+//-----------------------------------------------------
+
+
+
+
+
+
+
+
+// ------------------ FUNCTION FOR GOING IN GAME CHRONO --------
+
+function goInGameChrono(){ 
+    // console.log("bonjour"); // test if worth 
+
+    // ---- remove rules  ------
+    supprRulesChrono.remove();
+    supprTimeChrono.remove();
+    // ----------------
+
+    afficherFunctionChrono(); // function of game 
+
+    //----- create button break and giveup ----
+    document.body.appendChild(buttonGiveUpChrono); // button Give Up
+    document.body.appendChild(buttonPauseChrono); // button Pause
+    countDownChrono(); // call the function countDownChrono
+    setInterval(countDownChrono , 120);    
+}
+
+
+function giveUpChrono(){
+    timeChrono = 0;
+    countDownChrono();
+}
+function pauseChrono(){
+    window.alert("Vous avez mis le jeu en pause ");
+    afficherFunctionChrono();
+}
+
+
+function countDownChrono(){ // function timer for the game CHRONO
+    let minutes = parseInt(timeChrono / 60, 10);
+    let secondes = parseInt(timeChrono % 60 , 10);
+    minutes = minutes < 10 ? "0" + minutes : minutes; 
+    secondes = secondes < 10 ? "0" + secondes : secondes; 
+    timerElementChrono.innerHTML = minutes + " : " + secondes; 
+    // timeChrono --; 
+    if (timeChrono <= 0){
+        window.location.reload();
+        window.alert("Vous avez perdu");
+    }
+    else if(timeChrono > 180){
+        timeChrono = 180;
+    }
+    else{
+        timeChrono = timeChrono- 0.1;
+    }
+    // timeChrono = timeChrono <= 0 ? 0 : timeChrono - 1;  TERNAIRE 
+   
+}
+
+
+
+
+
 
 
 
@@ -303,14 +327,6 @@ function attribuerChrono(){
 }
 //  ------------------------------------------------------------
 
-//------------------- FUNCTION CHANGE COLOR OF ANSWERS  ---------------------
-function changeColourChrono(){
-    this.style.color = "red"; 
-}
-function changeColourBackChrono(){
-    this.style.color = "black"; 
-}
-//-----------------------------------------------------
 
 //---------- RELOAD PAGE FOR NEW GAME ----------------
 
