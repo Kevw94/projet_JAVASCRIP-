@@ -8,6 +8,7 @@ let supprRulesChrono = document.querySelector("#regles"); //get the all rules
 let supprTimeChrono = document.querySelector("#tmp"); //get the div "time"
 //-----------------------------------------------------------------
 
+let center = document.querySelector("center");
 
 let timerElementChrono = document.querySelector("#div1"); // for the clock
 
@@ -27,6 +28,16 @@ buttonPauseChrono.innerHTML = "PAUSE" ;
 let buttonReprendreChrono = document.createElement("button");
 buttonReprendreChrono.setAttribute("class" , "reprendreChrono");
 buttonReprendreChrono.innerHTML = "REPRENDRE";
+// -------------------------------------------------------------------
+// ------------------------------ Button NEW GAME ----------------------
+let buttonNewGameChrono = document.createElement("button");
+buttonNewGameChrono.setAttribute("class" , "newgameChrono");
+buttonNewGameChrono.innerHTML = "NEW GAME";
+// -------------------------------------------------------------------
+// ------------------------------ Button CONTINUER ----------------------
+let buttonContinueChrono = document.createElement("button");
+buttonContinueChrono.setAttribute("class" , "continueChrono");
+buttonContinueChrono.innerHTML = "CONTINUER";
 // -------------------------------------------------------------------
 
 
@@ -87,7 +98,7 @@ let pQuatreChrono = document.createElement("p");
 
 
 // ----------- go in CHRONO game on click ----------------
-buttonChrono.addEventListener("click" , goInGameChrono);
+buttonChrono.addEventListener("click" , startingGame);
 
 
 
@@ -97,9 +108,11 @@ buttonGiveUpChrono.addEventListener("click", giveUpChrono);
 
 buttonPauseChrono.addEventListener("click", pauseChrono);
 
-buttonReprendreChrono.addEventListener("click", reprendreChrono)
+buttonReprendreChrono.addEventListener("click", reprendreChrono);
 
+buttonNewGameChrono.addEventListener("click", newGameChrono);
 
+buttonContinueChrono.addEventListener("click", continueChrono);
 
 // ------------ ALL add EventListener for function in GAME CHRONO ----------------------
 
@@ -141,13 +154,15 @@ function changeColourBackChrono(){
 
 // ------------------ FUNCTION FOR GOING IN GAME CHRONO --------
 
-function goInGameChrono(){ 
-    // console.log("bonjour"); // test if worth 
-
-    // ---- remove rules  ------
+function startingGame() {
     supprRulesChrono.remove();
     supprTimeChrono.remove();
-    // ----------------
+    center.appendChild(buttonNewGameChrono);
+    center.appendChild(buttonContinueChrono);
+}
+
+function goInGameChrono(){ 
+    // console.log("bonjour"); // test if worth 
 
     afficherFunctionChrono(); // function for game 
 
@@ -155,7 +170,7 @@ function goInGameChrono(){
     document.body.appendChild(buttonGiveUpChrono); // button Give Up
     document.body.appendChild(buttonPauseChrono); // button Pause
     countDownChrono(); // call the function countDownChrono
-    setInterval(countDownChrono , 1000);    
+    setInterval(countDownChrono , 1000);
 }
 
 //-----------------Fonction pour les boutons---------------------
@@ -178,16 +193,40 @@ function reprendreChrono(){
     document.body.appendChild(buttonPauseChrono);
     afficherFunctionChrono();
 }
+
+function newGameChrono(){
+    buttonContinueChrono.remove();
+    buttonNewGameChrono.remove();
+    localStorage.clear();
+    goInGameChrono();
+}
+
+function continueChrono(){
+    if (getFromLocalStorage("Time (Chrono)" == undefined)){
+        // buttonContinueChrono.remove();
+        // buttonNewGameChrono.remove();
+        // goInGameChrono();
+        iChrono++;
+        jChrono++;
+        windows.alert("Il n'y a pas de sauvegarde");
+    }
+    else{
+        buttonContinueChrono.remove();
+        buttonNewGameChrono.remove();
+        localStorageDataChrono();
+        goInGameChrono();
+    }
+}
 //---------------------------------------------------------------
 //--------------------Fonction LOCALSTORAGE--------------------
 function getFromLocalStorageChrono(key){
     return JSON.parse(localStorage.getItem(key));
 }
 function localStorageDataChrono(){
-    if (getFromLocalStorageChrono("Time Chrono") != undefined){
-        timeChrono = getFromLocalStorageChrono("Time Chrono");
-        iChrono = getFromLocalStorageChrono("Bonnes réponses(Chrono)");
-        jChrono = getFromLocalStorageChrono("Mauvaises réponses(Chrono)");
+    if (getFromLocalStorageChrono("Time (Chrono) ") != undefined){
+        timeChrono = getFromLocalStorageChrono("Time (Chrono) ");
+        iChrono = getFromLocalStorageChrono("Bonnes réponses (Chrono) ");
+        jChrono = getFromLocalStorageChrono("Mauvaises réponses (Chrono) ");
         // for (let count = 0; count < (j+i); count++){
         //     if (getFromLocalStorage("") == allQuizz)
         // }
@@ -204,9 +243,9 @@ function countDownChrono(){
     timerElementChrono.innerHTML = minutes + " : " + secondes; 
     // LOCALSTORAGE----------------------------------------------
     window.localStorage.setItem("Time (Chrono) ", timeChrono);
-    window.localStorage.setItem("Bonnes réponses (Chrono) ", (iChrono - 1));
-    window.localStorage.setItem("Mauvaises réponses (Chrono) ", (jChrono - 1));
-    window.localStorage.setItem("Question (Chrono) " + ((iChrono+jChrono) - 1), allQuizzChrono);
+    window.localStorage.setItem("Bonnes réponses (Chrono) ", iChrono);
+    window.localStorage.setItem("Mauvaises réponses (Chrono) ", jChrono);
+    window.localStorage.setItem("Question (Chrono) " + (iChrono+jChrono), allQuizzChrono);
     //-----------------------------------------------------------
     // timeChrono --; 
     if (timeChrono <= 0){
@@ -261,17 +300,34 @@ function incrBadChrono(){
 
 
 
-
+let noRepeatChrono = [];
 
 
 // ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
 function attributeValuesJsonChrono(){ 
-    allQuizzChrono = allQuestions[resultatChrono]["quizz"];
-    answerOneChrono = allQuestions[resultatChrono]["rep1"];
-    answerTwoChrono = allQuestions[resultatChrono]["rep2"];
-    answerThreeChrono = allQuestions[resultatChrono]["rep3"];
-    answerFourChrono = allQuestions[resultatChrono]["rep4"];
-    goodRepChrono = allQuestions[resultatChrono]["goodrep"];
+
+    noRepeatChrono.push(resultatChrono);
+    console.log(noRepeatChrono);
+    for (let i = 1 ; i <= noRepeatChrono.length ; i++){
+        if (noRepeatChrono[i] == resultatChrono){
+            allQuizzChrono = allQuestions[resultatChrono + 1]["quizz"];
+            answerOneChrono = allQuestions[resultatChrono+1]["rep1"];
+            answerTwoChrono = allQuestions[resultatChrono+1]["rep2"];
+            answerThreeChrono = allQuestions[resultatChrono+1]["rep3"];
+            answerFourChrono = allQuestions[resultatChrono+1]["rep4"];
+            goodRepChrono = allQuestions[resultatChrono+1]["goodrep"];
+
+        }
+        else {
+            allQuizzChrono = allQuestions[resultatChrono]["quizz"];
+            answerOneChrono = allQuestions[resultatChrono]["rep1"];
+            answerTwoChrono = allQuestions[resultatChrono]["rep2"];
+            answerThreeChrono = allQuestions[resultatChrono]["rep3"];
+            answerFourChrono = allQuestions[resultatChrono]["rep4"];
+            goodRepChrono = allQuestions[resultatChrono]["goodrep"];
+        }
+    }
+    
 
     console.log(answerOneChrono);
     console.log(answerTwoChrono);
@@ -351,6 +407,7 @@ function afficherFunctionChrono(){
 function afficherSiAnswerChrono(){
     let repAlea= new Array()
     if (answerOneChrono != undefined && answerTwoChrono != undefined && answerThreeChrono != undefined && answerFourChrono != undefined ){
+        //on définit la longueur du tableau en fonction du nombre de réponses
         repAlea.length = 4
         let i=0
         let random
@@ -359,12 +416,12 @@ function afficherSiAnswerChrono(){
         repAlea[1]=pDeuxChrono
         repAlea[2]=pTroisChrono
         repAlea[3]=pQuatreChrono
-
+        //on attribut les réponses aux paragraphes
         pUnChrono.innerHTML = answerOneChrono; 
         pDeuxChrono.innerHTML = answerTwoChrono;
         pTroisChrono.innerHTML = answerThreeChrono;
         pQuatreChrono.innerHTML = answerFourChrono;
-        //shuffle de la postion des paragraphes
+        //shuffle de la postion des paragraphes + appendChild à la div
         while( i<repAlea.length){
             random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){
@@ -375,6 +432,7 @@ function afficherSiAnswerChrono(){
         }
     }
     else if (answerOneChrono != undefined && answerTwoChrono != undefined && answerThreeChrono != undefined && answerFourChrono == undefined ){
+        //on définit la longueur du tableau en fonction du nombre de réponses
         repAlea.length = 3;
         let i=0;
         let random;
@@ -382,11 +440,13 @@ function afficherSiAnswerChrono(){
         repAlea[0]=pUnChrono;
         repAlea[1]=pDeuxChrono;
         repAlea[2]=pTroisChrono;
+        //on attribut les réponses aux paragraphes
         pUnChrono.innerHTML = answerOneChrono; 
         pDeuxChrono.innerHTML = answerTwoChrono;
         pTroisChrono.innerHTML = answerThreeChrono;
+        //on enlève les potentielles réponses en trop
         pQuatreChrono.remove();
-        //shuffle de la postion des paragraphes
+        //shuffle de la postion des paragraphes + appendChild à la div
         while( i<repAlea.length){
             random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){
@@ -397,16 +457,20 @@ function afficherSiAnswerChrono(){
         }
     }
     else {
+        //on définit la longueur du tableau en fonction du nombre de réponses
         let i=0
         let random
         repAlea.length = 2
+        //position des paragraphes dans le tableau
         repAlea[0]=pUnChrono
         repAlea[1]=pDeuxChrono
+        //on attribut les réponses aux paragraphes
         pUnChrono.innerHTML = answerOneChrono;
-        pDeuxChrono.innerHTML = answerTwoChrono; 
+        pDeuxChrono.innerHTML = answerTwoChrono;
+        //on enlève les potentielles réponses en trop
         pTrois.remove();
         pQuatre.remove();
-        //shuffle de la postion des paragraphes
+        //shuffle de la postion des paragraphes + appendChild à la div
         while( i<repAlea.length){
                 random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){

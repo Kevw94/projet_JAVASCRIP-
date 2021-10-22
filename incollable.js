@@ -238,10 +238,8 @@ function countDown(){
 
 
     if (time == 0){
-        incrementationMauvaiseRep.innerHTML = "mauvaise réponse " + j++;
+        incrementationMauvaiseRep.innerHTML = "Mauvaises réponses " + j++;
         afficherFunction();
-        //reloadPage();
-        //window.localStorage.clear();
       
     }
 
@@ -289,22 +287,46 @@ function incrBad(){
     }
 }
    
-
+let noRepeat = [];
 
 
 // ---------------- VALUES OF QUESTIONS AND ANSWERS FROM JSON  ----------
 function attributeValuesJson(){
-    allQuizz = allQuestions[resultat]["quizz"];
-    answerOne = allQuestions[resultat]["rep1"];
-    answerTwo = allQuestions[resultat]["rep2"];
-    answerThree = allQuestions[resultat]["rep3"];
-    answerFour = allQuestions[resultat]["rep4"];
-    goodRep = allQuestions[resultat]["goodrep"];
+    
+    noRepeat.push(resultat);
+    console.log(noRepeat);
+    for (let i = 1 ; i <= noRepeat.length  ; i ++){
+        if (noRepeat[i] == resultat){
+            allQuizz = allQuestions[resultat + 1]["quizz"];
+            answerOne = allQuestions[resultat+1]["rep1"];
+            answerTwo = allQuestions[resultat+1]["rep2"];
+            answerThree = allQuestions[resultat+1]["rep3"];
+            answerFour = allQuestions[resultat+1]["rep4"];
+            goodRep = allQuestions[resultat+1]["goodrep"];
+        }
+        else {
+            allQuizz = allQuestions[resultat]["quizz"];
+            answerOne = allQuestions[resultat]["rep1"];
+            answerTwo = allQuestions[resultat]["rep2"];
+            answerThree = allQuestions[resultat]["rep3"];
+            answerFour = allQuestions[resultat]["rep4"];
+            goodRep = allQuestions[resultat]["goodrep"];
+            
+        }
+        
+    }
+   
+            
+    
+   
+    
+    
     console.log(answerOne);
     console.log(answerTwo);
     console.log(answerThree);
     console.log(answerFour);
     console.log(goodRep);
+    console.log(noRepeat);
 }
 //  
 
@@ -357,7 +379,7 @@ function afficherFunction(){
         randomValue();
         time = 20 ;
 
-        
+
         attributeValuesJson();
         afficherSiAnswer();  
         divQuestions.innerHTML = allQuizz;
@@ -384,19 +406,21 @@ function afficherFunction(){
 function afficherSiAnswer(){
     let repAlea= new Array()
     if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour != undefined ){
+        //on définit la longueur du tableau en fonction du nombre de réponses
         repAlea.length = 4;
         let i=0;
         let random;
+        //position des paragraphes dans le tableau
         repAlea[0]=pUn;
         repAlea[1]=pDeux;
         repAlea[2]=pTrois;
         repAlea[3]=pQuatre;
-
+        //on attribut la réponse aux paragraphes
         pUn.innerHTML = answerOne; 
         pDeux.innerHTML = answerTwo;
         pTrois.innerHTML = answerThree;
         pQuatre.innerHTML = answerFour;
-
+        // shuffle de la postion des paragraphes + appendChild à la div
         while( i<repAlea.length){
             random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){
@@ -407,16 +431,21 @@ function afficherSiAnswer(){
         }
     }
     else if (answerOne != undefined && answerTwo != undefined && answerThree != undefined && answerFour == undefined ){
+        //on définit la longueur du tableau en fonction du nombre de réponses
         repAlea.length = 3
         let i=0
         let random
+        //position des paragraphes dans le tableau
         repAlea[0]=pUn
         repAlea[1]=pDeux
         repAlea[2]=pTrois
+        //on attribut la réponse aux paragraphes
         pUn.innerHTML = answerOne; 
         pDeux.innerHTML = answerTwo;
         pTrois.innerHTML = answerThree;
+        //on remove les potentielles réponses en trop
         pQuatre.remove();
+        // shuffle de la position des paragraphes + appendChild à la div
         while( i<repAlea.length){
             random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){
@@ -428,15 +457,20 @@ function afficherSiAnswer(){
         
     }
     else {
+        //on définit la longueur du tableau en fonction du nombre de réponses
         let i=0
         let random
         repAlea.length = 2
+        //position des paragraphes dans le tableau
         repAlea[0]=pUn
         repAlea[1]=pDeux
+        //on attribut la réponse aux paragraphes
         pUn.innerHTML = answerOne;
         pDeux.innerHTML = answerTwo;
+        //on remove les potentielles réponses en trop
         pTrois.remove();
         pQuatre.remove();
+        // shuffle de la position des paragraphes + appendChild à la div
         while( i<repAlea.length){
                 random =Math.floor(Math.random()*repAlea.length)
             if (repAlea[random]!= "selected"){
