@@ -76,7 +76,6 @@ document.body.appendChild(incrementationMauvaiseRepChrono);
 
 
 let divQuestionsChrono = document.querySelector("#div2"); // questions
-//divQuestionsChrono.setAttribute("style", "bold");
 
 
 let divAnswerChrono = document.querySelector("#div3");
@@ -162,7 +161,6 @@ function startingGame() {
 }
 
 function goInGameChrono(){ 
-    // console.log("bonjour"); // test if worth 
 
     afficherFunctionChrono(); // function for game 
 
@@ -177,9 +175,7 @@ function goInGameChrono(){
 function giveUpChrono(){
     window.location.reload();
     window.alert("Vous avez abandonné");
-    
-    // timeChrono = 0;
-    // countDownChrono();
+
     window.localStorage.clear();
 }
 function pauseChrono(){
@@ -203,9 +199,6 @@ function newGameChrono(){
 
 function continuerChrono(){
     if (getFromLocalStorage("Time (Chrono)" == undefined)){
-        // buttonContinuerChrono.remove();
-        // buttonNewGameChrono.remove();
-        // goInGameChrono();
         iChrono++;
         jChrono++;
 
@@ -228,12 +221,8 @@ function localStorageDataChrono(){
         timeChrono = getFromLocalStorageChrono("Time (Chrono) ");
         iChrono = getFromLocalStorageChrono("Bonnes réponses (Chrono) ");
         jChrono = getFromLocalStorageChrono("Mauvaises réponses (Chrono) ");
-        // for (let count = 0; count < (j+i); count++){
-        //     if (getFromLocalStorage("") == allQuizz)
-        // }
     }
 }
-
 //-----------------------------------------------------------------
 //  ------- function timer for the game CHRONO ----------
 function countDownChrono(){ 

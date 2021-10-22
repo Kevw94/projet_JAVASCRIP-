@@ -214,9 +214,7 @@ function reprendre(){
 }
 function continuer(){
     if (getFromLocalStorage("Time (incollable)") == undefined){
-        // buttonContinuer.remove();
-        // buttonNewGame.remove();
-        // goInGameIncollable();
+       
         i++;
         j++;
         window.alert("Il n'y a pas de sauvegarde");
@@ -240,9 +238,7 @@ function localStorageData(){
         time = getFromLocalStorage("Time (incollable)");
         i = getFromLocalStorage("Bonnes réponses (incollable)");
         j = getFromLocalStorage("Mauvaises réponses (incollable)");
-        // for (let count = 0; count < (j+i); count++){
-        //     if (getFromLocalStorage("") == allQuizz)
-        // }
+       
     }
 }
 
@@ -251,11 +247,11 @@ function localStorageData(){
 
 //------ function timer for the game INCOLLABLE -------
 function countDown(){ 
-    let minutes = parseInt(time / 60, 10);
+    let minutes = parseInt(time / 60, 10); // renvois entier calcul base 10
     let secondes = parseInt(time % 60 , 10);
-    minutes = minutes < 10 ? "0" + minutes : minutes; // à expliquer
-    secondes = secondes < 10 ? "0" + secondes : secondes; // à expliquer 
-    timerElement.innerHTML = minutes + " : " + secondes; //à expliquer 
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    secondes = secondes < 10 ? "0" + secondes : secondes; 
+    timerElement.innerHTML = minutes + " : " + secondes; 
     // time --; 
 
 
@@ -350,12 +346,6 @@ function attributeValuesJson(){
         }
         
     }
-   
-            
-    
-   
-    
-    
     console.log(answerOne);
     console.log(answerTwo);
     console.log(answerThree);
@@ -523,12 +513,6 @@ function reloadPage(){
     window.location.reload();
     window.alert("Vous avez perdu");
 }
-
-// function abandon(){
-//     window.location.reload();
-//     window.alert("Vous avez abandonné");
-
-// }
 
 // --------------------------------- END :) ---------------------------------------------------
 
